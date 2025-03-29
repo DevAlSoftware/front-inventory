@@ -1,3 +1,4 @@
+/*  CONTENEDOR PRINCIPAL DEL DASHBOARD */
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -8,50 +9,120 @@
     right: 0;
 }
 
-.is-mobile .dashboard-toolbar{
+/*  TARJETA DEL PERFIL */
+.profile-card {
+    text-align: center;
+    padding: 0 20px 20px 20px;
+    background-color: #ffebf5 !important; /* Fondo rosado claro */
+    color: #000000 !important; /* Texto negro */
+}
+
+/*  CONFIGURACIÓN PARA MODO MÓVIL */
+.is-mobile .dashboard-toolbar {
     position: fixed;
     z-index: 2;
-}
-
-h1.app-name {
-    margin-left: 8px;
-    margin-top: 15px;
-}
-
-.sidenav-container{
-    flex: 1;
 }
 
 .is-mobile .sidenav-container {
     flex: 1 0 auto;
 }
 
+/*  ESTILOS DEL NOMBRE DE LA APP */
+h1.app-name {
+    margin-left: 8px;
+    margin-top: 15px;
+}
+
+/*  LISTAS Y CONTENEDORES */
 ul li {
-   list-style: none; 
-}
-
-.profile-card{
-    text-align: center;
-    padding: 0 20px 20px 20px;
-}
-
-.header{
-    margin-top: 20px;
-}
-
-.icono{
-    margin-right: 10px;
+    list-style: none; 
 }
 
 div ul {
-   display: flex;
-   align-items: center; 
+    display: flex;
+    align-items: center; 
 }
 
-.right{
+.right {
     margin-left: auto;
 }
 
+/*  ESTILOS PARA ELEMENTOS DE TEXTO E ÍCONOS */
 .name {
     margin-bottom: 1px;
 }
+
+.header {
+    margin-top: 20px;
+}
+
+.icono {
+    margin-right: 10px;
+}
+
+/*  BARRA SUPERIOR DEL DASHBOARD */
+.mat-toolbar.dashboard-toolbar {
+    background-color: #ff69b4 !important; /* Rosado */
+    color: white !important; /* Texto blanco */
+}
+
+/*  CONTENEDOR DEL SIDENAV Y FONDO DEL CONTENIDO */
+.sidenav-container, 
+mat-sidenav-content {
+    flex: 1;
+    background-color: #ffebf5 !important; /* Un rosado clarito */
+}
+
+/*  ESTILOS DEL SIDENAV */
+mat-sidenav,
+.mat-nav-list {
+    background-color: #ffebf5 !important; /* Fondo rosado claro */
+    color: #212121 !important; /* Negro intenso */
+    opacity: 1 !important;
+}
+
+/*  LISTA DEL MENÚ LATERAL */
+.mat-nav-list, 
+.profile-card, 
+mat-list-item {
+    color: #212121 !important; /* Negro fuerte para mejorar contraste */
+    font-weight: 500 !important; /* Hace que el texto sea más visible */
+}
+
+/* ESTILOS PARA ÍCONOS */
+.mat-list-item .mat-icon,
+.mat-mdc-list-item .mat-icon {
+    color: #000000 !important; /* Negro fuerte */
+}
+
+/*  LÍNEAS DIVISORIAS */
+mat-divider {
+    background-color: #e0e0e0 !important; /* Línea divisoria gris */
+}
+
+/*  ASEGURAR QUE EL TEXTO DEL MENÚ SEA VISIBLE */
+.mat-mdc-list-item, 
+.mat-mdc-list-item span, 
+.mat-mdc-list-item .mdc-list-item__content, 
+.mat-mdc-list-item .mat-mdc-list-item-unscoped-content, 
+.mdc-list-item__primary-text {
+    color: #000 !important; /* Negro fuerte */
+    font-weight: bold !important; /* Texto grueso */
+    opacity: 1 !important;
+}
+
+/*  EFECTO HOVER Y FOCUS PARA LOS ELEMENTOS DEL MENÚ */
+.mat-mdc-list-item:hover, 
+.mat-mdc-list-item:focus {
+    opacity: 1 !important;
+    background-color: rgba(0, 0, 0, 0.1) !important; /* Un gris suave para diferenciar */
+}
+
+/* COLOR PARA EL CERRAR SECCIÓN*/
+::ng-deep .mat-mdc-menu-content, 
+::ng-deep .mat-mdc-menu-panel, 
+::ng-deep .mat-mdc-menu-item {
+    background-color: #ff69b4 !important; /* ROSADO FUERTE */
+    color: white !important;
+}
+

@@ -39,3 +39,4 @@ export class SidenavComponent {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
 }
+
