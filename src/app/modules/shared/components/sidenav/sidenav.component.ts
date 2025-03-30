@@ -30,8 +30,8 @@ export class SidenavComponent {
   email: string = 'valu@gmail.com';
 
   menuNav = [
-    { name: "Home", route: "/home", icon: "home" },
-    { name: "Categorías", route: "/categorias", icon: "category" },
+    { name: "Home", route: "home", icon: "home" },
+    { name: "Categorías", route: "category", icon: "category" },
     { name: "Productos", route: "/productos", icon: "inventory_2" }, 
     { name: "Ventas", route: "home", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
