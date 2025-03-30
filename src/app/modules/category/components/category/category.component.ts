@@ -1,13 +1,14 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../shared/material.module';
 import { CategoryService } from '../../../shared/services/category.service';
 import { ConfirmComponent } from '../../../shared/components/confirm/confirm/confirm.component';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -15,9 +16,15 @@ import { ConfirmComponent } from '../../../shared/components/confirm/confirm/con
   standalone: true,
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],
-  imports: [CommonModule, MaterialModule]
+  imports: [CommonModule, 
+    MaterialModule,
+    MatTableModule, 
+    MatPaginatorModule, 
+    MatDialogModule, 
+    MatSnackBarModule,
+    FormsModule]
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, AfterViewInit {
 
   private categoryService = inject(CategoryService);
   private snackBar = inject(MatSnackBar);
@@ -27,6 +34,10 @@ export class CategoryComponent implements OnInit {
   dataSource = new MatTableDataSource<CategoryElement>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   ngOnInit(): void {
     this.getCategories();
@@ -50,7 +61,9 @@ export class CategoryComponent implements OnInit {
         dataCategory.push(element);
       });
       this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
-      this.dataSource.paginator = this.paginator;
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+      });
     }
   }
 
