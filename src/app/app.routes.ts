@@ -9,7 +9,8 @@ export const routes: Routes = [
         loadComponent: () => import('./modules/dashboard/pages/dashborad.component').then(m => m.DashboradComponent),
         children: [ 
             { path: 'home', loadComponent: () => import('./modules/dashboard/components/home/home.component').then(m => m.HomeComponent) },
-            { path: 'category', loadComponent: () => import('./modules/category/components/category/category.component').then(m => m.CategoryComponent) }
+            { path: 'category', loadComponent: () => import('./modules/category/components/category/category.component').then(m => m.CategoryComponent) },
+            { path: 'product', loadComponent: () => import('./modules/product/product/product.component').then(m => m.ProductComponent)}
         ]
     }
 ];
