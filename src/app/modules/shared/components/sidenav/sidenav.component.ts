@@ -33,6 +33,7 @@ export class SidenavComponent {
     { name: "Home", route: "home", icon: "home" },
     { name: "Categorías", route: "category", icon: "category" },
     { name: "Productos", route: "product", icon: "inventory_2" }, 
+    { name: "Clientes", route: "customer", icon: "group" }, 
     { name: "Ventas", route: "home", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
 ];

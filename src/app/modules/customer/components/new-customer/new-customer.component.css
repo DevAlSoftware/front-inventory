@@ -1,0 +1,8 @@
+.customer-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-container > * {
+    width: 100%;
+}

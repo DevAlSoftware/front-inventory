@@ -10,7 +10,8 @@ export const routes: Routes = [
         children: [ 
             { path: 'home', loadComponent: () => import('./modules/dashboard/components/home/home.component').then(m => m.HomeComponent) },
             { path: 'category', loadComponent: () => import('./modules/category/components/category/category.component').then(m => m.CategoryComponent) },
-            { path: 'product', loadComponent: () => import('./modules/product/product/product.component').then(m => m.ProductComponent)}
+            { path: 'product', loadComponent: () => import('./modules/product/product/product.component').then(m => m.ProductComponent) },
+            { path: 'customer', loadComponent: () => import('./modules/customer/components/customer/customer.component').then(m => m.CustomerComponent) }
         ]
     }
 ];
