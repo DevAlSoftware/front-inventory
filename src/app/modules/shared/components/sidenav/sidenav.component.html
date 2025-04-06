@@ -3,26 +3,26 @@
 
     <!-- empieza toolbar-->
     <mat-toolbar color="primary" class="dashboard-toolbar">
-        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-        <h1 class="app-name">Valu-Inventario</h1>
+        <div class="left">
+            <div class="menu">
+            <a (click)="snav.toggle()"><mat-icon>menu</mat-icon></a>
+            </div>
+            <h1 class="app-name">Valu Luxury Brands</h1>
+        </div>
+        
 
         <div class="right">
-            <ul>
-                <li>
-                    <button mat-icon-button>
-                        <mat-icon>help_outline</mat-icon>
-                    </button>
-                </li>
-                <li>
-                    <button mat-button [matMenuTriggerFor]="menu">
-                        <mat-icon>person_outline</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <mat-icon>exit_to_app</mat-icon>
-                        Cerrar Sesión
-                    </mat-menu>
-                </li>
-            </ul>
+            <a>
+                <mat-icon>help_outline</mat-icon>
+            </a>
+                
+            <a [matMenuTriggerFor]="menu">
+                <mat-icon>person_outline</mat-icon>
+            </a>
+            <mat-menu #menu="matMenu">
+                <mat-icon>exit_to_app</mat-icon>
+                    Cerrar Sesión
+            </mat-menu>
         </div>
 
     </mat-toolbar>
@@ -42,13 +42,14 @@
                         </div>
                     </div>
 
-                    <mat-divider></mat-divider>
+                   
 
-                    <a mat-list-item [routerLink]="nav.route" *ngFor="let nav of menuNav">
-                        <mat-icon class="icono"> {{ nav.icon }}</mat-icon>
-                        <span class="name">{{nav.name}}</span>
-
-                    </a>
+                    <div  [routerLink]="nav.route" *ngFor="let nav of menuNav">
+                        <a class="icono-name">
+                            <mat-icon class="icono"> {{ nav.icon }}</mat-icon>
+                            <span class="name">{{nav.name}}</span>
+                        </a>           
+                    </div>
 
                 </mat-nav-list>
 
