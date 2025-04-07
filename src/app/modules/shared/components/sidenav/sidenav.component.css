@@ -1,3 +1,22 @@
+:root{
+    --background-color:#fef1f8;
+    --text-tittle-color:#560121;
+    --text-color:#00010D;
+    --icon-color:#ff69b4;
+    --icon-color-menu:#ffcbe8;
+    --menu-color:#fee5f2;
+
+    --text-selected-color:#560121;
+    --background-selected:#560121;
+    --backgorund-hover:#ffa1d3;
+
+    --border-color:#ffa1d3;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
 /*  CONTENEDOR PRINCIPAL DEL DASHBOARD */
 .dashboard-container {
     display: flex;
@@ -13,8 +32,7 @@
 .profile-card {
     text-align: center;
     padding: 0 20px 20px 20px;
-    background-color: #ffebf5 !important; /* Fondo rosado claro */
-    color: #000000 !important; /* Texto negro */
+
 }
 
 /*  CONFIGURACIÓN PARA MODO MÓVIL */
@@ -32,97 +50,176 @@ h1.app-name {
     margin-left: 8px;
     margin-top: 15px;
 }
-
-/*  LISTAS Y CONTENEDORES */
-ul li {
-    list-style: none; 
-}
-
-div ul {
+/* Toolbar */
+.dashboard-toolbar{
     display: flex;
-    align-items: center; 
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.45rem 2rem 0.45rem 1.27rem;
+    align-items: center;
+    background-color:#ffa1d3;
+    top: 0;
+    left: 0;
+    z-index: 200;
+}
+/* left section  */
+.left{
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    gap: 1.4rem;
+}
+.left .app-name{
+    font-size: 1.5rem;
+    color: #560121;
+    display: flex;
+    padding-bottom: 1rem;
 }
 
-.right {
-    margin-left: auto;
+.left a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.left .mat-icon{
+    color: #a80c47;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius:0.5rem;
+    transition: backgorund-color 0.2s ease;
+    border-radius: 50%;
+    
+}
+.left a:hover{
+    background-color: #ffcbe8;
+    border-radius: 50%;
+    border: 1px solid #ffa1d3;
+    color: #a80c47;
 }
 
-/*  ESTILOS PARA ELEMENTOS DE TEXTO E ÍCONOS */
-.name {
-    margin-bottom: 1px;
-}
 
-.header {
-    margin-top: 20px;
+/*  right section */
+.right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.6rem;
 }
-
-.icono {
-    margin-right: 10px;
+.rigth ul{
+    display: flex;
+    justify-content: center;
 }
+.right{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1.6rem;
+    border-radius: 0.5rem;
+    width: 10rem;
+}
+.right a{
+    display: flex;
+    justify-content: center;
+    border-radius: 0.5rem;
+    width: 50px;
+    cursor: pointer;
+ 
+}
+.right .mat-icon{
+    color: #a80c47;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 3rem;
+    font-size: 30px;
+    border-radius:0.5rem;
+    transition: backgorund-color 0.2s ease;
+    border-radius: 50%;
+}
+.right .mat-icon:hover{
+    background-color: #ffcbe8;
+    border-radius: 50%;
+    border: 1px solid #ffa1d3;
+    color: #a80c47;
+}
+/* Sidenav */
 
-/*  BARRA SUPERIOR DEL DASHBOARD */
-.mat-toolbar.dashboard-toolbar {
-    background-color: #ff69b4 !important; /* Rosado */
-    color: white !important; /* Texto blanco */
+.sidenav-container{
+    display: flex;
+    
 }
 
 /*  CONTENEDOR DEL SIDENAV Y FONDO DEL CONTENIDO */
 .sidenav-container, 
 mat-sidenav-content {
     flex: 1;
-    background-color: #ffebf5 !important; /* Un rosado clarito */
+    background-color: #fff;
+}
+.custom-sidenav{
+    background-color: #fef1f8;
+}
+mat-nav-list{
+    background-color:#fef1f8 ;
 }
 
-/*  ESTILOS DEL SIDENAV */
-mat-sidenav,
-.mat-nav-list {
-    background-color: #ffebf5 !important; /* Fondo rosado claro */
-    color: #212121 !important; /* Negro intenso */
-    opacity: 1 !important;
+.sidenav-container .profile-card{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    background-color: #fef1f8;
+    
+}
+.sidenav-container .profile-card .header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    color: #000;
+}
+.sidenav-container .profile-card .header h2,h4{
+    font-weight: lighter;
 }
 
-/*  LISTA DEL MENÚ LATERAL */
-.mat-nav-list, 
-.profile-card, 
-mat-list-item {
-    color: #212121 !important; /* Negro fuerte para mejorar contraste */
-    font-weight: 500 !important; /* Hace que el texto sea más visible */
+
+.sidenav-container div{
+    display: flex;
+    align-items: center;
+    height: 6rem;
+    padding-left: 1rem;
+    gap: 1.6rem;
 }
 
-/* ESTILOS PARA ÍCONOS */
-.mat-list-item .mat-icon,
-.mat-mdc-list-item .mat-icon {
-    color: #000000 !important; /* Negro fuerte */
+.sidenav-container div .icono-name{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    cursor: pointer;
+}
+.sidenav-container a .icono{
+    color: #cc0a57;
+    background-color: #ffcbe8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ffa1d3;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+}
+.sidenav-container div .icono:hover{
+    color: #fff;
+    background-color: #ea1870;
+    border: 2px solid #ea1870;
 }
 
-/*  LÍNEAS DIVISORIAS */
-mat-divider {
-    background-color: #e0e0e0 !important; /* Línea divisoria gris */
+.sidenav-container div .name{
+    font-weight:lighter;
+    color: #cc0a57;
 }
 
-/*  ASEGURAR QUE EL TEXTO DEL MENÚ SEA VISIBLE */
-.mat-mdc-list-item, 
-.mat-mdc-list-item span, 
-.mat-mdc-list-item .mdc-list-item__content, 
-.mat-mdc-list-item .mat-mdc-list-item-unscoped-content, 
-.mdc-list-item__primary-text {
-    color: #000 !important; /* Negro fuerte */
-    font-weight: bold !important; /* Texto grueso */
-    opacity: 1 !important;
-}
-
-/*  EFECTO HOVER Y FOCUS PARA LOS ELEMENTOS DEL MENÚ */
-.mat-mdc-list-item:hover, 
-.mat-mdc-list-item:focus {
-    opacity: 1 !important;
-    background-color: rgba(0, 0, 0, 0.1) !important; /* Un gris suave para diferenciar */
-}
-
-/* COLOR PARA EL CERRAR SECCIÓN*/
-::ng-deep .mat-mdc-menu-content, 
-::ng-deep .mat-mdc-menu-panel, 
-::ng-deep .mat-mdc-menu-item {
-    background-color: #ff69b4 !important; /* ROSADO FUERTE */
-    color: white !important;
-}
 
