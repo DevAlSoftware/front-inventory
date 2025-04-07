@@ -198,7 +198,7 @@ mat-nav-list{
     display: flex;
     align-items: center;
     width: 200px;
-    cursor: pointer;
+    text-decoration: none;
 }
 .sidenav-container a .icono{
     color: #cc0a57;
@@ -211,11 +211,6 @@ mat-nav-list{
     height: 2rem;
     width: 2rem;
 }
-.sidenav-container div .icono:hover{
-    color: #fff;
-    background-color: #ea1870;
-    border: 2px solid #ea1870;
-}
 
 .sidenav-container div .name{
     font-weight:lighter;
@@ -223,3 +218,49 @@ mat-nav-list{
 }
 
 
+/* ------------------------------animations--------------------------- */
+
+.mat-nav-list a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: fadeSlideIn 0.4s ease forwards;
+    animation-delay: calc(var(--i) * 100ms); /* para que aparezcan en cascada */
+  }
+  
+  @keyframes fadeSlideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .icono-name:hover {
+    background-color: #ffa1d3;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+    border-radius: 1rem;
+  }
+
+/* ----------------------------------estado de active--------------------------- */
+
+::ng-deep .active-link {
+    background-color: #cc0a57;
+    border-radius: 1rem;
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+::ng-deep .active-link .icono {
+    background-color: #cc0a57 !important;
+    color: #fff !important;
+    border: 1px solid #cc0a57 !important;
+}
+
+::ng-deep .active-link .name {
+    color: #fff !important;
+}
+
+  

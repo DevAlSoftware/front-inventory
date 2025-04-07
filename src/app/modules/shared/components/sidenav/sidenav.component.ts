@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-sidenav',
@@ -22,7 +22,9 @@ import { NgFor } from '@angular/common';
     MatListModule,
     MatButtonModule,
     MatMenuModule,
-    NgFor
+    NgFor,
+    CommonModule
+
   ]
 })
 export class SidenavComponent {
