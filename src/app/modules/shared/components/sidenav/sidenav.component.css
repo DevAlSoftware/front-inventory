@@ -147,6 +147,11 @@ h1.app-name {
     border: 1px solid #ffa1d3;
     color: #a80c47;
 }
+.right .closemenu{
+    background-color: #fef1f8;
+    border: 2px solid #ffa1d3;
+}
+
 /* Sidenav */
 
 .sidenav-container{
