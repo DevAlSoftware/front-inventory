@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
 import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
@@ -38,6 +38,9 @@ export class SidenavComponent {
     { name: "Ventas", route: "home", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
 ];
+nav: any;
+i: any;
+menu: MatMenuPanel<any> | null | undefined;
 
   constructor(media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
