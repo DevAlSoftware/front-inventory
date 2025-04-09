@@ -3,16 +3,13 @@ import { CommonModule } from '@angular/common';
 import { DashboradComponent } from './pages/dashborad.component';
 import { HomeComponent } from './components/home/home.component';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
-import { CategoryModule } from '../category/category.module';
 
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, DashboradComponent, HomeComponent, RouterModule, SharedModule,
-    CategoryModule
+    CommonModule, DashboradComponent, HomeComponent, RouterModule
   ]
 })
 export class DashboardModule { }
