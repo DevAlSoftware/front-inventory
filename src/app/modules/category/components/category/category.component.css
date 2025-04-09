@@ -1,0 +1,92 @@
+.category-card {
+    margin: 24px;
+    padding: 16px;
+    border-radius: 16px;
+    background-color: #1e1e1e; /* fondo oscuro */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    color: #f5f5f5;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  .search-field {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .add-btn {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #7c3aed;
+    color: #fff;
+  }
+  
+  .add-btn:hover {
+    background-color: #9f53ff;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 16px;
+  }
+  
+  table {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+  }
+  
+  th.mat-header-cell {
+    background-color: #333;
+    font-weight: 600;
+    color: #ffffff !important;
+    border-bottom: 1px solid #444 !important;
+  }
+  
+  td.mat-cell {
+    background-color: #2a2a2a !important;
+    border-bottom: 1px solid #444 !important;
+  }
+  
+  tr.mat-row:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .mat-icon-button {
+    color: #bb86fc;
+  }
+  
+  .mat-paginator {
+    background-color: #1e1e1e !important;
+    color: #f5f5f5;
+  }
+  
+  .mat-paginator .mat-button-base {
+    color: #bb86fc;
+  }
+  
