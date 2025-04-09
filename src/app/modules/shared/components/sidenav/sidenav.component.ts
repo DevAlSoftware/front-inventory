@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-sidenav',
@@ -15,14 +15,15 @@ import { NgFor } from '@angular/common';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css'],
   imports: [
-    RouterModule, // 👈 Importa RouterModule para que <router-outlet> funcione
+    RouterModule, 
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     MatListModule,
     MatButtonModule,
     MatMenuModule,
-    NgFor
+    NgFor,
+    CommonModule
   ]
 })
 export class SidenavComponent {
