@@ -9,6 +9,7 @@ import { NewProductComponent } from "../new-product/new-product.component";
 import { ConfirmComponent } from "../../shared/components/confirm/confirm/confirm.component";
 import { MaterialModule } from "../../shared/material.module";
 import { FormsModule } from "@angular/forms";
+import { MonedaPipe } from "../../../moneda.pipe";
 
 export interface ProductElement {
   id: number;
@@ -25,8 +26,8 @@ export interface ProductElement {
   styleUrls: ['./product.component.css'],
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSnackBarModule, MatDialogModule,
-      MaterialModule,
-      FormsModule]
+    MaterialModule,
+    FormsModule, MonedaPipe]
 })
 export class ProductComponent implements OnInit {
   
