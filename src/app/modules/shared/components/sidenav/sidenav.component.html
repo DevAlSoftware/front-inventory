@@ -1,0 +1,55 @@
+
+<!-- -----------------------------------SIDENAV--------------------- -->
+<mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidebar">
+      <div class="logo">Valu Luxury Brands</div>
+      <div class="mat-nav-list" *ngFor="let nav of menuNav; let i = index" [routerLink]="nav.route" [ngStyle]="{'--i': i}">
+                        <a class="icono-name"
+                        [routerLink]="nav.route"
+                        routerLinkActive="active-link"
+                        [ngStyle]="{'--i': i}"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                            <mat-icon class="icono">{{ nav.icon }}</mat-icon>
+                            <span class="name">{{ nav.name }}</span>
+                        </a>
+                    </div>
+    </mat-sidenav>
+  
+    <!-- ------------------------------NAVBAR------------------------- -->
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="navbar">
+        <button mat-icon-button (click)="sidenav.toggle()" class="hide-desktop">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="navbar-title">Sistema de Inventarios</span>
+        <span class="spacer"></span>
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="custom-menu">
+            <button mat-menu-item class="menu-item">
+              <mat-icon class="menu-icon">exit_to_app</mat-icon>
+       
+              <span>Cerrar Sesión</span>
+            </button>
+          </mat-menu>
+
+        <!-- <button mat-icon-button>
+          <mat-icon>account_circle</mat-icon>
+        </button> -->
+      </mat-toolbar>
+  
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+
+
+

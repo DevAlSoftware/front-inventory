@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { SidenavComponent } from '../../shared/components/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-dashborad',
-  imports: [],
+  imports: [SidenavComponent],
   templateUrl: './dashborad.component.html',
   styleUrl: './dashborad.component.css'
 })
