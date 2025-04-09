@@ -7,7 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav',
@@ -22,8 +23,11 @@ import { NgFor } from '@angular/common';
     MatListModule,
     MatButtonModule,
     MatMenuModule,
-    NgFor
-  ]
+    NgFor,
+    CommonModule
+  ],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class SidenavComponent {
   mobileQuery: MediaQueryList;
@@ -36,6 +40,8 @@ export class SidenavComponent {
     { name: "Ventas", route: "home", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
 ];
+nav: any;
+i: any;
 
   constructor(media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
