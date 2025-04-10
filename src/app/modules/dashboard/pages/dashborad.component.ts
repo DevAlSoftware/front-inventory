@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SidenavComponent } from '../../shared/components/sidenav/sidenav.component';
+
 
 @Component({
   selector: 'app-dashborad',
-  standalone: true, // 👈 Esto es lo que te faltaba
-  imports: [RouterModule], // ✅ Para usar <router-outlet>
+  standalone: true,
+  imports: [RouterModule,
+    SidenavComponent
+  ],
   templateUrl: './dashborad.component.html',
-  styleUrls: ['./dashborad.component.css'] // 👈 También corregido
+  styleUrl: './dashborad.component.css'
 })
-export class DashboradComponent { }
+export class DashboradComponent {
+
+}
