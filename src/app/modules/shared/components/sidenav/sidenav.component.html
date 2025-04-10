@@ -1,71 +1,38 @@
-<div class="dashboard-container" [class.is-mobile]="mobileQuery.matches">
 
-    <!-- empieza toolbar-->
-    <mat-toolbar color="primary" class="dashboard-toolbar">
-        <div class="left">
-            <a mat-icon-button (click)="snav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </a>
-            <h1 class="app-name">Valu Luxury Brands</h1>
-        </div>
+<!-- -----------------------------------SIDENAV--------------------- -->
+<mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidebar">
+      <div class="logo">Valu Luxury Brands</div>
+      <mat-nav-list>
+        <a routerLink="/dashboard/home" routerLinkActive="active-link">Dashboard</a>
+        <a routerLink="/productos" routerLinkActive="active-link">Productos</a>
+        <a routerLink="/dashboard/category" routerLinkActive="active-link">Categorías</a>
+        <a routerLink="/usuarios" routerLinkActive="active-link">Maestro</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <!-- ------------------------------NAVBAR------------------------- -->
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="navbar">
+        <button mat-icon-button (click)="sidenav.toggle()" class="hide-desktop">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="navbar-title">Sistema de Inventarios</span>
+        <span class="spacer"></span>
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </mat-toolbar>
+  
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
 
-        <div class="right">
-                    <a>
-                        <mat-icon>help_outline</mat-icon>
-                    </a>
-               
-                    <a  [matMenuTriggerFor]="menu">
-                        <mat-icon>person_outline</mat-icon>
-                    </a>
-                    <mat-menu #menu="matMenu">
-                        <mat-icon>exit_to_app</mat-icon>
-                        Cerrar Sesión
-                    </mat-menu>
-        </div>
-
-    </mat-toolbar>
-
-    <!-- empieza sidenav-->
-    <mat-sidenav-container class="sidenav-container"
-                            [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-            <mat-sidenav class="custom-sidenav" #snav [mode]="mobileQuery.matches? 'over': 'side'"
-                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-
-                <mat-nav-list>
-                    <!--profile-->
-                    <div class="profile-card">
-                        <div class="header">
-                            <h2>Valu</h2>
-                            <h4>{{ email }}</h4>
-                        </div>
-                    </div>
-                    
-                    <div *ngFor="let nav of menuNav; let i = index" 
-                    [routerLink]="nav.route"
-                    [ngStyle]="{'--i': i}"
-                    >
-                        <a
-                        class="icono-name"
-                        [routerLink]="nav.route"
-                        routerLinkActive="active-link"
-                        [ngStyle]="{'--i': i}"
-                        [routerLinkActiveOptions]="{ exact: true }"
-                        >
-                            <mat-icon class="icono">{{ nav.icon }}</mat-icon>
-                            <span class="name">{{ nav.name }}</span>
-                        </a>
-                    </div>
-
-                </mat-nav-list>
-
-
-            </mat-sidenav> 
-
-            <mat-sidenav-content>
-                <router-outlet></router-outlet>
-            </mat-sidenav-content>
-
-    </mat-sidenav-container>
-</div>
 
 
