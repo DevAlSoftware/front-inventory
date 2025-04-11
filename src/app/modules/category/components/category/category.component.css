@@ -23,11 +23,15 @@ mat-card {
     width: 100%;
     max-width: 400px;
   }
+/* Texto del input */
+.mat-input-element {
+  color: #2c3e50; /* Color del texto que escribe el usuario */
+  font-weight: 500;
+}
   
   /* Botón agregar */
   .right ul {
     display: flex;
-    justify-content: flex-end;
     margin-top: 1rem;
   }
   
@@ -40,6 +44,16 @@ mat-card {
     font-size: 0.95rem;
     padding: 0.5rem 1.2rem;
     border-radius: 8px;
+    color: #6e5849;
+    background-color: transparent;
+  }
+  .botton-card{
+    display: flex;
+    justify-content: flex-end;
+  }
+  button[mat-raised-button]:hover{
+    background-color: #e8e1d8;
+    color: #b4975a;
   }
   
   /* Tabla */
