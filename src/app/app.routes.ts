@@ -11,7 +11,8 @@ export const routes: Routes = [
             { path: 'home', loadComponent: () => import('./modules/dashboard/components/home/home.component').then(m => m.HomeComponent) },
             { path: 'category', loadComponent: () => import('./modules/category/components/category/category.component').then(m => m.CategoryComponent) },
             { path: 'product', loadComponent: () => import('./modules/product/product/product.component').then(m => m.ProductComponent) },
-            { path: 'customer', loadComponent: () => import('./modules/customer/components/customer/customer.component').then(m => m.CustomerComponent) }
+            { path: 'customer', loadComponent: () => import('./modules/customer/components/customer/customer.component').then(m => m.CustomerComponent) },
+            { path: 'sale-form', loadComponent: () => import('./modules/sale/sale-form/sale-form.component').then(m => m.SaleFormComponent) }
         ]
     }
 ];
