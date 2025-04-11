@@ -67,7 +67,11 @@
       font-family: 'Segoe UI', sans-serif;
     }
     
-    
+    .matmenu{
+      background-color: #f3efe9 !important;
+      color: #6e5849 !important;
+      border: 2px solid #d5cfc7 !important;
+    }
     
     
     mat-nav-list a:hover,
