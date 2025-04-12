@@ -2,7 +2,9 @@
     <!-- -----------------------------------SIDENAV--------------------- -->
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened class="sidebar">
-          <div class="logo">Valu Luxury Brands</div>
+          <div class="logo">Valu Luxury Brands
+            <h4>{{ email }}</h4>
+          </div>
           <mat-nav-list>
     
             <div *ngFor="let nav of menuNav; let i = index" 
