@@ -22,7 +22,10 @@
     font-family: 'Georgia', serif;
     border-bottom: 1px solid #d5cfc7 !important;
   }
-  
+  .sidebar h4{
+    font-size: 12px;
+    font-family: 'Segoe UI', sans-serif;
+  }
   mat-nav-list a {
     display: flex;
     align-items: center;
@@ -57,10 +60,7 @@
   .link-text {
     font-family: 'Segoe UI', sans-serif;
   }
-  
-  
-  
-  
+   
   mat-nav-list a:hover,
   mat-nav-list a.active-link {
     background-color: #e8e1d8 !important;
@@ -91,6 +91,14 @@
     border-left: 1px solid #e1dcd6;
   }
   
+  .navbar .navbar-actions{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+
   @media (max-width: 768px) {
     .sidebar {
       width: 220px;

@@ -2,7 +2,9 @@
     <!-- -----------------------------------SIDENAV--------------------- -->
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened class="sidebar">
-          <div class="logo">Valu Luxury Brands</div>
+          <div class="logo">Valu Luxury Brands
+            <h4>{{ email }}</h4>
+          </div>
           <mat-nav-list>
     
             <div *ngFor="let nav of menuNav; let i = index" 
@@ -35,16 +37,18 @@
             </button>
             <span class="navbar-title">Sistema de Inventarios</span>
             <span class="spacer"></span>
-            <button mat-icon-button>
-              <mat-icon>notifications</mat-icon>
-            </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>person_outline</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <mat-icon>exit_to_app</mat-icon>
-              Cerrar Sesión
-            </mat-menu>
+            <div class="navbar-actions">
+              <button mat-icon-button>
+                <mat-icon>notifications</mat-icon>
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>person_outline</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <mat-icon>exit_to_app</mat-icon>
+                Cerrar Sesión
+              </mat-menu>
+            </div>
     
             <!-- <button mat-icon-button>
               <mat-icon>account_circle</mat-icon>
