@@ -1,12 +1,134 @@
-.full-width {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .total-container {
-    margin-top: 15px;
-    text-align: right;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
+/* Título del diálogo */
+h2[mat-dialog-title] {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #3f3f3f;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Campos de formulario */
+mat-form-field.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.mat-form-field-label {
+  color: #3f51b5 !important;
+}
+
+.mat-input-element,
+.mat-select-value-text {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-ripple {
+  background-color: #3f51b5;
+}
+
+.mat-form-field-underline {
+  background-color: black;
+}
+
+/* Botón agregar producto */
+button[mat-raised-button] {
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  background-color: #e8e1d8;
+  color: #b4975a;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+button[mat-raised-button]:not([disabled]):hover {
+  background-color: #e8e1d8;
+  color: #b4975a;
+  transform: translateY(-2px);
+}
+
+button[mat-raised-button]:hover{
+  background-color: #e8e1d8;
+  color: #b4975a;
+}
+
+/* Estilo cuando está deshabilitado */
+button[mat-raised-button][disabled] {
+  background-color: #f1eee9 !important;
+  color: #c0b49a !important;
+  cursor: not-allowed;
+  opacity: 1;
+}
+/* Tabla de productos agregados */
+table {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #444;
+}
+
+td.mat-cell {
+  color: #333;
+  vertical-align: middle;
+}
+
+td.mat-cell input[type="number"] {
+  width: 70px;
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* Íconos de acción */
+button[mat-icon-button] {
+  transition: transform 0.2s ease;
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.15);
+}
+
+mat-icon {
+  color: #e53935;
+}
+
+/* Total final */
+.total-container {
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Acciones del diálogo */
+mat-dialog-actions {
+  margin-top: 1.5rem;
+}
+
+mat-dialog-actions button {
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+mat-dialog-actions button[mat-button] {
+  color: #555;
+}
+
+mat-dialog-actions button[mat-raised-button] {
+  color: white;
+  background-color: #3f51b5;
+}
