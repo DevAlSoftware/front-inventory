@@ -32,6 +32,7 @@ export class SidenavComponent {
 
   menuNav = [
     { name: "Home", route: "home", icon: "home" },
+    { name: "Nueva Venta", route: "new-sale", icon: "attach_money" },
     { name: "Categorías", route: "category", icon: "category" },
     { name: "Productos", route: "product", icon: "inventory_2" }, 
     { name: "Clientes", route: "customer", icon: "group" }, 

@@ -1,5 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 import { SaleService } from '../../shared/services/sale.service';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -8,6 +7,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MaterialModule } from '../../shared/material.module';
 import { FormsModule } from '@angular/forms';
 import { MonedaPipe } from '../../../moneda.pipe';
+import { Router } from '@angular/router';
 
 interface SaleDetail {
   product: any;
@@ -20,7 +20,7 @@ interface SaleDetail {
 @Component({
   selector: 'app-new-sale',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSnackBarModule, MatDialogModule,
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSnackBarModule,
     MaterialModule, FormsModule, MonedaPipe],
   templateUrl: './new-sale.component.html',
   styleUrls: ['./new-sale.component.css']
@@ -35,23 +35,28 @@ export class NewSaleComponent {
   saleDetails: SaleDetail[] = [];
 
   selectedProductId: number | null = null;
+  selectedProduct: any = null;
+  selectedQuantity: number = 1;
 
   constructor(
     private saleService: SaleService,
-    private dialogRef: MatDialogRef<NewSaleComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
-    this.getCustomers();
+   /* this.getCustomers();*/
     this.getProducts();
   }
 
-  getCustomers() {
-    this.customers = [
-      { id: 1, name: 'Cliente 1' },
-      { id: 2, name: 'Cliente 2' }
-    ];
-  }
+ /* getCustomers() {
+    this.saleService.getCustomers().subscribe({
+      next: (res: any) => {
+        this.customers = res.customer.customers;
+      },
+      error: () => {
+        this.snackBar.open('Error al obtener clientes', 'OK', { duration: 2000 });
+      }
+    });
+  }*/
 
   getProducts() {
     this.saleService.getProducts().subscribe((res: any) => {
@@ -59,41 +64,50 @@ export class NewSaleComponent {
     });
   }
 
-addProductToSale() {
-  if (this.selectedProductId === null) return;
-
-  const product = this.products.find(p => p.id === this.selectedProductId);
-  if (!product) return;
-
-  const alreadyInSale = this.saleDetails.find(item => item.product.id === product.id);
-  if (alreadyInSale) {
-    this.snackBar.open('Este producto ya fue agregado', 'OK', { duration: 2000 });
-    return;
+  onProductSelected(productId: number) {
+    this.selectedProduct = this.products.find(p => p.id === productId) || null;
+    this.selectedQuantity = 1;
   }
 
-  const newItem = {
-    product: product,
-    quantity: 1,
-    price: product.price,
-    profitPercentage: 0.1,
-    total: this.calculateTotal(product.price, 1, 0.1)
-  };
+  addProductToSale() {
+    if (!this.selectedProduct || this.selectedQuantity < 1) return;
 
-  this.saleDetails.push(newItem);
-  this.selectedProductId = null;
-}
+    if (this.selectedQuantity > this.selectedProduct.account) {
+      this.snackBar.open('Cantidad excede el stock disponible', 'OK', { duration: 2000 });
+      return;
+    }
 
-updateTotal(item: any) {
-  item.total = this.calculateTotal(item.price, item.quantity, item.profitPercentage);
-}
+    const alreadyInSale = this.saleDetails.find(item => item.product.id === this.selectedProduct.id);
+    if (alreadyInSale) {
+      this.snackBar.open('Este producto ya fue agregado', 'OK', { duration: 2000 });
+      return;
+    }
 
-calculateTotal(price: number, quantity: number, profit: number): number {
-  return (price + (price * profit)) * quantity;
-}
+    const newItem = {
+      product: this.selectedProduct,
+      quantity: this.selectedQuantity,
+      price: this.selectedProduct.price,
+      profitPercentage: 0.1,
+      total: this.calculateTotal(this.selectedProduct.price, this.selectedQuantity, 0.1)
+    };
 
-getTotalSale(): number {
-  return this.saleDetails.reduce((acc, item) => acc + item.total, 0);
-}
+    this.saleDetails = [...this.saleDetails, newItem];
+    this.selectedProductId = null;
+    this.selectedProduct = null;
+    this.selectedQuantity = 1;
+  }
+
+  updateTotal(item: any) {
+    item.total = this.calculateTotal(item.price, item.quantity, item.profitPercentage);
+  }
+
+  calculateTotal(price: number, quantity: number, profit: number): number {
+    return (price + (price * profit)) * quantity;
+  }
+
+  getTotalSale(): number {
+    return this.saleDetails.reduce((acc, item) => acc + item.total, 0);
+  }
 
   saveSale() {
     const salePayload = {
@@ -112,13 +126,18 @@ getTotalSale(): number {
     };
 
     this.saleService.saveSale(salePayload).subscribe({
-      next: () => this.dialogRef.close(1),
-      error: () => this.dialogRef.close(2)
+      next: () => {
+        this.snackBar.open('Venta guardada con éxito', 'OK', { duration: 2000 });
+        this.router.navigate(['/ventas']);
+      },
+      error: () => {
+        this.snackBar.open('Error al guardar venta', 'OK', { duration: 2000 });
+      }
     });
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.router.navigate(['/ventas']);
   }
 
   removeProduct(index: number) {

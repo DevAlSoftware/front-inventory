@@ -10,6 +10,7 @@ import { MonedaPipe } from '../../../moneda.pipe';
 import { ConfirmComponent } from '../../shared/components/confirm/confirm/confirm.component';
 import { SaleService } from '../../shared/services/sale.service';
 import { NewSaleComponent } from '../new-sale/new-sale.component';
+import { Router } from '@angular/router';
 
 export interface Customer {
   id: number;
@@ -49,6 +50,7 @@ export class SaleFormComponent implements OnInit {
   private saleService = inject(SaleService);
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
+  private router = inject(Router);
 
   displayedColumns: string[] = ['id', 'customer', 'saleDate', 'total', 'detalle', 'actions'];
   dataSource = new MatTableDataSource<Sale>();
@@ -151,5 +153,9 @@ export class SaleFormComponent implements OnInit {
         this.openSnackBar("No se pudo exportar el archivo", "Error");
       }
     );
+  }
+
+  goToNewSale() {
+    this.router.navigate(['/dashboard/new-sale']);
   }
 }
