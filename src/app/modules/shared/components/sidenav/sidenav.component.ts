@@ -39,11 +39,8 @@ export class SidenavComponent {
     { name: "Ventas", route: "sale-form", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
 ];
-nav: any;
-i: any;
 
   constructor(media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
 }
-

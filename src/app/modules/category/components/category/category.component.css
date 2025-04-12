@@ -1,92 +1,118 @@
-.category-card {
-    margin: 24px;
-    padding: 16px;
-    border-radius: 16px;
-    background-color: #1e1e1e; /* fondo oscuro */
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
-    color: #f5f5f5;
-  }
-  
-  .title {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #ffffff;
-  }
-  
-  .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .header-actions {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
+/* Estructura general */
+mat-card {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+/* Título centrado */
+.alinear {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Buscador */
+mat-form-field {
+  width: 100%;
+  max-width: 400px;
+}
+/* Texto del input */
+.mat-input-element {
+color: #2c3e50; /* Color del texto que escribe el usuario */
+font-weight: 500;
+}
+
+/* Botón agregar */
+.right ul {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.right li {
+  list-style: none;
+}
+
+button[mat-raised-button] {
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  color: #6e5849;
+  background-color: transparent;
+}
+.botton-card{
+  display: flex;
+  justify-content: flex-end;
+}
+button[mat-raised-button]:hover{
+  background-color: #e8e1d8;
+  color: #b4975a;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  margin-top: 2rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+/* Cabecera */
+th.mat-header-cell {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Celdas */
+td.mat-cell {
+  color: #333;
+}
+
+/* Iconos de acción */
+button[mat-icon-button] {
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.15);
+}
+
+/* Íconos */
+mat-icon {
+  color: #3f51b5;
+}
+
+/* Ajustes columna número */
+.mat-cell:nth-child(1),
+.mat-header-cell:nth-child(1) {
+  width: 5%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  mat-form-field {
     width: 100%;
-    margin-top: 8px;
   }
-  
-  .search-field {
-    flex: 1;
-    min-width: 250px;
+
+  .right ul {
+    justify-content: center;
   }
-  
-  .add-btn {
-    height: 56px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #7c3aed;
-    color: #fff;
+
+  .right li {
+    margin-bottom: 1rem;
   }
-  
-  .add-btn:hover {
-    background-color: #9f53ff;
-  }
-  
-  .table-wrapper {
-    overflow-x: auto;
-    margin-top: 16px;
-  }
-  
-  table {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-  }
-  
-  th.mat-header-cell {
-    background-color: #333;
-    font-weight: 600;
-    color: #ffffff !important;
-    border-bottom: 1px solid #444 !important;
-  }
-  
+
+  th.mat-header-cell,
   td.mat-cell {
-    background-color: #2a2a2a !important;
-    border-bottom: 1px solid #444 !important;
+    font-size: 0.9rem;
   }
-  
-  tr.mat-row:hover {
-    background-color: #3a3a3a;
-  }
-  
-  .mat-icon-button {
-    color: #bb86fc;
-  }
-  
-  .mat-paginator {
-    background-color: #1e1e1e !important;
-    color: #f5f5f5;
-  }
-  
-  .mat-paginator .mat-button-base {
-    color: #bb86fc;
-  }
-  
+}
