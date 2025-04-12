@@ -3,18 +3,18 @@
   
     <mat-card-header>
       <div>
-        <mat-form-field hintLabel="Busque venta" appearance="fill">
+        <mat-form-field hintLabel="Busque una venta" appearance="fill">
           <mat-label>Buscar Venta</mat-label>
           <input matInput #input (keyup)="buscar(input.value)">
         </mat-form-field>
       </div>
     </mat-card-header>
   
-    <mat-card-header>
+    <mat-card-header class="button-container">
       <div class="right">
         <ul>
           <li>
-            <button (click)="goToNewSale()">Agregar Venta</button>
+            <button mat-raised-button color="primary" (click)="goToNewSale()">Agregar Venta</button>
           </li>
         </ul>
       </div>
