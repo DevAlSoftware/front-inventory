@@ -15,7 +15,7 @@ import { CommonModule, NgFor } from '@angular/common';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css'],
   imports: [
-    RouterModule, // 👈 Importa RouterModule para que <router-outlet> funcione
+    RouterModule, 
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
@@ -32,9 +32,11 @@ export class SidenavComponent {
 
   menuNav = [
     { name: "Home", route: "home", icon: "home" },
+    { name: "Nueva Venta", route: "new-sale", icon: "attach_money" },
     { name: "Categorías", route: "category", icon: "category" },
-    { name: "Productos", route: "/productos", icon: "inventory_2" }, 
-    { name: "Ventas", route: "home", icon: "point_of_sale" },
+    { name: "Productos", route: "product", icon: "inventory_2" }, 
+    { name: "Clientes", route: "customer", icon: "group" }, 
+    { name: "Ventas", route: "sale-form", icon: "point_of_sale" },
     { name: "Maestros", route: "home", icon: "supervisor_account" } 
 ];
 nav: any;

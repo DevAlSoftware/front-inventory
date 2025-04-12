@@ -1,0 +1,35 @@
+<h2 mat-dialog-title> {{ estadoFormulario }} Nuevo Cliente </h2>
+<mat-dialog-content>
+
+    <form [formGroup]="customerForm">
+        <div class="customer-container">
+
+            <mat-form-field>
+                <input matInput placeholder="Nombre" formControlName="fullName" required/>
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea matInput placeholder="Documento" formControlName="document" required></textarea>
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea matInput placeholder="Celular" formControlName="phone" required></textarea>
+            </mat-form-field>
+
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+    <button mat-button color="primary" (click)="onSave()" [disabled]="customerForm.invalid">
+        <mat-icon>save</mat-icon> Guardar
+    </button>
+
+    <button mat-button color="primary" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon> Cancelar
+    </button>
+
+</mat-dialog-actions>
+
