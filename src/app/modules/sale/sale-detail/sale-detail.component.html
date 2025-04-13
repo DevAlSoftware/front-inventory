@@ -1,0 +1,69 @@
+<mat-card>
+    <mat-card-header>
+      <div class="header">
+        <mat-form-field appearance="fill">
+          <mat-label>Buscar Detalles de Venta</mat-label>
+          <input matInput (keyup)="getSaleDetails()" #searchInput>
+        </mat-form-field>
+      </div>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" matSort>
+  
+        <!-- ID column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+  
+        <!-- Product column -->
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+          <td mat-cell *matCellDef="let element">{{ element.product.name }}</td>
+        </ng-container>
+  
+        <!-- Quantity column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+          <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+        </ng-container>
+  
+        <!-- Price column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+          <td mat-cell *matCellDef="let element">{{ element.price | currency }}</td>
+        </ng-container>
+  
+        <!-- Profit Percentage column -->
+        <ng-container matColumnDef="profitPercentage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> % Ganancia </th>
+          <td mat-cell *matCellDef="let element">{{ element.profitPercentage }}%</td>
+        </ng-container>
+  
+        <!-- Total column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+          <td mat-cell *matCellDef="let element">{{ element.total | currency }}</td>
+        </ng-container>
+  
+        <!-- Actions column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteSaleDetail(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  

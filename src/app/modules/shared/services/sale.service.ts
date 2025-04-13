@@ -59,4 +59,12 @@ export class SaleService {
     const endpoint = `${base_url}/products`;
     return this.http.get(endpoint);
   }
+
+  /**
+   * Obtener productos disponibles (por si necesitas mostrar productos para agregar en saleDetails)
+   */
+  getCustomers() {
+    const endpoint = `${base_url}/customers`;
+    return this.http.get(endpoint);
+  }
 }

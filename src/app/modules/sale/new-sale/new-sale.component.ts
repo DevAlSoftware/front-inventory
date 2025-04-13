@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SaleService } from '../../shared/services/sale.service';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MaterialModule } from '../../shared/material.module';
 import { FormsModule } from '@angular/forms';
 import { MonedaPipe } from '../../../moneda.pipe';
 import { Router } from '@angular/router';
+import { MaterialModule } from '../../shared/material.module';
 
 interface SaleDetail {
   product: any;
@@ -38,25 +38,27 @@ export class NewSaleComponent {
   selectedProduct: any = null;
   selectedQuantity: number = 1;
 
+  private saleService = inject(SaleService);
+
   constructor(
-    private saleService: SaleService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {
-   /* this.getCustomers();*/
+    this.getCustomers();
     this.getProducts();
   }
 
- /* getCustomers() {
+  getCustomers() {
     this.saleService.getCustomers().subscribe({
       next: (res: any) => {
-        this.customers = res.customer.customers;
+        console.log('👉 Respuesta de clientes:', res);
+        this.customers = res.customerResponse.customer;
       },
       error: () => {
         this.snackBar.open('Error al obtener clientes', 'OK', { duration: 2000 });
       }
     });
-  }*/
+  }  
 
   getProducts() {
     this.saleService.getProducts().subscribe((res: any) => {
@@ -111,9 +113,7 @@ export class NewSaleComponent {
 
   saveSale() {
     const salePayload = {
-      customer: {
-        id: this.selectedCustomer
-      },
+      customer: { id: this.selectedCustomer },
       saleDate: this.saleDate,
       total: this.getTotalSale(),
       saleDetails: this.saleDetails.map(item => ({
@@ -124,17 +124,31 @@ export class NewSaleComponent {
         total: item.total
       }))
     };
-
+  
     this.saleService.saveSale(salePayload).subscribe({
-      next: () => {
-        this.snackBar.open('Venta guardada con éxito', 'OK', { duration: 2000 });
-        this.router.navigate(['/ventas']);
+      next: (res: any) => {
+        console.log('Respuesta del backend:', res); // Esto te permite ver la respuesta en consola
+  
+        // Acceder al ID correctamente
+        const saleId = res.saleResponse?.sale?.[0]?.id; // Cambiar la forma de acceder al ID
+  
+        if (saleId) {
+          this.snackBar.open('Venta guardada con éxito', 'OK', { duration: 2000 });
+  
+          // Aquí es donde actualizamos la lista de productos con stock actualizado
+          this.getProducts();
+  
+          // Navegar a la vista de detalles de la venta
+          this.router.navigate(['/dashboard/saleDetail', saleId]);
+        } else {
+          this.snackBar.open('ID de venta no encontrado en la respuesta', 'OK', { duration: 2000 });
+        }
       },
       error: () => {
         this.snackBar.open('Error al guardar venta', 'OK', { duration: 2000 });
       }
     });
-  }
+  }  
 
   cancel() {
     this.router.navigate(['/ventas']);

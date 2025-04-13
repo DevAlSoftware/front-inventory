@@ -4,13 +4,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MaterialModule } from '../../shared/material.module';
 import { FormsModule } from '@angular/forms';
 import { MonedaPipe } from '../../../moneda.pipe';
 import { ConfirmComponent } from '../../shared/components/confirm/confirm/confirm.component';
 import { SaleService } from '../../shared/services/sale.service';
-import { NewSaleComponent } from '../new-sale/new-sale.component';
 import { Router } from '@angular/router';
+import { MaterialModule } from '../../shared/material.module';
 
 export interface Customer {
   id: number;
@@ -83,7 +82,7 @@ export class SaleFormComponent implements OnInit {
     }
   }
 
-  openSaleDialog() {
+ /* openSaleDialog() {
     const dialogRef = this.dialog.open(NewSaleComponent, {
       width: '600px'
     });
@@ -96,7 +95,7 @@ export class SaleFormComponent implements OnInit {
         this.openSnackBar("Se produjo un error al registrar la venta", "Error");
       }
     });
-  }
+  }*/
 
   openSnackBar(message: string, action: string): MatSnackBarRef<SimpleSnackBar> {
     return this.snackBar.open(message, action, {
