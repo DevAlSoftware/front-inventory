@@ -52,6 +52,14 @@ export class CustomerService {
     return this.http.get(endpoint);
   }
 
+  /**
+   * search by name
+   */
+  getCustomerByFullName(fullName: any){
+    const endpoint = `${base_url}/customers/filter/${fullName}`;
+    return this.http.get(endpoint);
+  }
+
 
   /**
    * export excel customers

@@ -106,7 +106,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  buscar(termino: string) {
+ /* buscar(termino: string) {
     if (termino.length === 0) {
       return this.getCustomers();
     }
@@ -114,6 +114,18 @@ export class CustomerComponent implements OnInit, AfterViewInit {
       .subscribe((resp: any) => {
         this.processCustomersResponse(resp);
       });
+  }*/
+
+      
+
+  buscar(fullName: string) {
+    if (!fullName.trim()) {
+      return this.getCustomers();
+    }
+
+    this.customerService.getCustomerByFullName(fullName).subscribe((resp: any) => {
+      this.processCustomersResponse(resp);
+    });
   }
 
   openSnackBar(message: string, action: string): MatSnackBarRef<SimpleSnackBar> {
