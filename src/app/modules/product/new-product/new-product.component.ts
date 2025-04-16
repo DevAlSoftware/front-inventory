@@ -5,6 +5,7 @@ import { MaterialModule } from '../../shared/material.module';
 import { CategoryService } from '../../shared/services/category.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProductService } from '../../shared/services/product.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 export interface Category {
   description: string;
@@ -26,6 +27,7 @@ export class NewProductComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<NewProductComponent>);
   public data = inject(MAT_DIALOG_DATA);
   private productService = inject(ProductService);
+  private notificationService = inject(NotificationService);
 
   public productForm!: FormGroup;
   estadoFormulario: string = '';
@@ -74,11 +76,24 @@ export class NewProductComponent implements OnInit {
       ? this.productService.updateProduct(uploadImageData, this.data.id)
       : this.productService.saveProduct(uploadImageData);
 
-    request.subscribe(
-      () => this.dialogRef.close(1),
-      () => this.dialogRef.close(2)
-    );
+      request.subscribe(
+        () => {
+          const productName = this.productForm.get('name')?.value;
+this.notificationService.sendNotification(
+  this.data
+    ? ` Producto "${productName}" actualizado con éxito`
+    : ` Producto "${productName}" creado con éxito`
+);
+         
+          this.dialogRef.close(1);
+        },
+        () => {
+          this.notificationService.sendNotification(' Error al guardar el producto');
+          this.dialogRef.close(2);
+        }
+      );
   }
+
 
   onCancel() {
     this.dialogRef.close(3);

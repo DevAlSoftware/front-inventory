@@ -31,9 +31,25 @@
 
           <!-- Si el usuario está logeado -->
           <ng-container *ngIf="isLoggedIn; else guestOptions">
-            <button mat-icon-button>
+            <button mat-icon-button [matMenuTriggerFor]="notificationMenu">
               <mat-icon>notifications</mat-icon>
+              <span *ngIf="notificationCount > 0" class="notification-badge">{{ notificationCount }}</span>
             </button>
+            
+            <mat-menu #notificationMenu="matMenu">
+              <ng-container *ngIf="notifications.length > 0; else noNotifications">
+                <button mat-menu-item *ngFor="let note of notifications">
+                  <mat-icon>info</mat-icon>
+                  {{ note }}
+                </button>
+              </ng-container>
+              <ng-template #noNotifications>
+                <button mat-menu-item disabled>
+                  <mat-icon>info</mat-icon>
+                  No hay notificaciones
+                </button>
+              </ng-template>
+            </mat-menu>
 
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>person_outline</mat-icon>

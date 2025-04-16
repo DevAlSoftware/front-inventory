@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { LoginService } from '../../services/login.service';
+import { NotificationService } from '../../services/notification.service';
 
 
 
@@ -35,6 +36,8 @@ export class SidenavComponent implements OnInit {
   username: string = '';
   isLoggedIn = false;
   user: any = null;
+  notifications: string[] = [];
+  notificationCount: number = 0;
 
   menuNav = [
     { name: "Home", route: "home", icon: "home" },
@@ -48,7 +51,8 @@ export class SidenavComponent implements OnInit {
   constructor(
     private media: MediaMatcher,
     private login: LoginService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
@@ -63,6 +67,14 @@ export class SidenavComponent implements OnInit {
       this.user = this.login.getUser();
       this.username = this.user?.username || 'Invitado';
     });
+    this.notificationService.notifications$.subscribe((msg) => {
+      this.addNotification(msg);
+    });
+  }
+
+  addNotification(message: string) {
+    this.notifications.push(message);
+    this.notificationCount = this.notifications.length;
   }
 
   logout(): void {

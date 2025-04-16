@@ -12,7 +12,7 @@ import { SaleService } from '../../shared/services/sale.service';
   standalone: true
 })
 export class SaleListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'total', 'details'];
+  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'subtotal', 'ganancia', 'details'];
   dataSource = new MatTableDataSource<any>();
 
   constructor(

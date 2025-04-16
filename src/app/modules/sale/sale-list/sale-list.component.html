@@ -48,8 +48,21 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="subtotal">
+    <th mat-header-cell *matHeaderCellDef> Subtotal </th>
+    <td mat-cell *matCellDef="let sale"> {{ sale.subtotalSinGanancia | moneda }} </td>
+  </ng-container>
   
+  <!-- Ganancia -->
+  <ng-container matColumnDef="ganancia">
+    <th mat-header-cell *matHeaderCellDef> Ganancia </th>
+    <td mat-cell *matCellDef="let sale">
+      <span style="color: green; font-weight: bold;">
+        {{ sale.ganancia | moneda }}
+      </span>
+    </td>
+  </ng-container>  
 
-  <tr mat-header-row *matHeaderRowDef="['id', 'customer', 'saleDate', 'details']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['id', 'customer', 'saleDate', 'details'];"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
