@@ -1,9 +1,57 @@
+/* Fondo general del login */
+.bootstrap-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2c3e50, #4b006e);
+}
 
+/* Tarjeta del login */
+mat-card {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
 
-.full-width{
-    width: 100%;;
-  }
-  
-  mat-card{
-    background-color: transparent;
-  }
+/* Estilos de los input */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-form-field input {
+  color: white;
+}
+
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: white;
+  border-color: #ccc;
+}
+
+mat-label, mat-hint {
+  color: #bbb !important;
+}
+
+/* Botones */
+button[mat-raised-button] {
+  background: linear-gradient(to bottom, #bd62ea, #3b70c4);
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 8px 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[mat-raised-button]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+button[mat-raised-button][color="accent"] {
+  background: linear-gradient(to bottom, #d3d3d3, #a0a0a0);
+  color: #222;
+}
