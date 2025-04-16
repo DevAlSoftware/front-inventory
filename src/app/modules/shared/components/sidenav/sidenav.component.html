@@ -1,63 +1,46 @@
 <div class="dashboard-container" [class.is-mobile]="mobileQuery.matches">
-    <!-- -----------------------------------SIDENAV--------------------- -->
-    <mat-sidenav-container class="main-container">
-        <mat-sidenav #sidenav mode="side" opened class="sidebar">
-          <div class="logo">Valu Luxury Brands
-            <h4>{{ email }}</h4>
-          </div>
-          <mat-nav-list>
-    
-            <div *ngFor="let nav of menuNav; let i = index" 
-            [routerLink]="nav.route"
-            [ngStyle]="{'--i': i}"
-            >
-                <a
-                class="icono-name"
-                [routerLink]="nav.route"
-                routerLinkActive="active-link"
-                [ngStyle]="{'--i': i}"
-                [routerLinkActiveOptions]="{ exact: true }"
-                >
-                    <mat-icon class="icono">{{ nav.icon }}</mat-icon>
-                    <span class="name">{{ nav.name }}</span>
-                </a>
-            </div>
-            <!-- <a routerLink="/dashboard/home" routerLinkActive="active-link">Dashboard</a>
-            <a routerLink="/productos" routerLinkActive="active-link">Productos</a>
-            <a routerLink="/dashboard/category" routerLinkActive="active-link">Categorías</a>
-            <a routerLink="/usuarios" routerLinkActive="active-link">Maestro</a> -->
-          </mat-nav-list>
-        </mat-sidenav>
-      
-        <!-- ------------------------------NAVBAR------------------------- -->
-        <mat-sidenav-content>
-          <mat-toolbar color="primary" class="navbar">
-            <button mat-icon-button (click)="sidenav.toggle()" class="hide-desktop">
-              <mat-icon>menu</mat-icon>
+  <mat-sidenav-container class="main-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidebar">
+      <div class="logo">
+        Valu Luxury Brands
+        <h2>{{ username }}</h2> 
+      </div>
+      <mat-nav-list>
+        <div *ngFor="let nav of menuNav; let i = index" [routerLink]="nav.route" [ngStyle]="{'--i': i}">
+          <a class="icono-name" [routerLink]="nav.route" routerLinkActive="active-link" [ngStyle]="{'--i': i}" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon class="icono">{{ nav.icon }}</mat-icon>
+            <span class="name">{{ nav.name }}</span>
+          </a>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="navbar">
+        <button mat-icon-button (click)="sidenav.toggle()" class="hide-desktop">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="navbar-title">Sistema de Inventarios</span>
+        <span class="spacer"></span>
+        <div class="navbar-actions">
+          <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>person_outline</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item >
+              <mat-icon>exit_to_app</mat-icon>
+              Cerrar Sesión
             </button>
-            <span class="navbar-title">Sistema de Inventarios</span>
-            <span class="spacer"></span>
-            <div class="navbar-actions">
-              <button mat-icon-button>
-                <mat-icon>notifications</mat-icon>
-              </button>
-              <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>person_outline</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <mat-icon>exit_to_app</mat-icon>
-                Cerrar Sesión
-              </mat-menu>
-            </div>
-    
-            <!-- <button mat-icon-button>
-              <mat-icon>account_circle</mat-icon>
-            </button> -->
-          </mat-toolbar>
-      
-          <div class="content">
-            <router-outlet></router-outlet>
-          </div>
-        </mat-sidenav-content>
-      </mat-sidenav-container>      
-    </div>
+          </mat-menu>
+        </div>
+      </mat-toolbar>
+
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

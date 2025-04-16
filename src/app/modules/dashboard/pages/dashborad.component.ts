@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SidenavComponent } from '../../shared/components/sidenav/sidenav.component';
 
@@ -7,11 +7,13 @@ import { SidenavComponent } from '../../shared/components/sidenav/sidenav.compon
   selector: 'app-dashborad',
   standalone: true,
   imports: [RouterModule,
-    SidenavComponent
+    SidenavComponent 
   ],
   templateUrl: './dashborad.component.html',
   styleUrl: './dashborad.component.css'
 })
 export class DashboradComponent {
+
+  
 
 }

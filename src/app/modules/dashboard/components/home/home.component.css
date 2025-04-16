@@ -1,0 +1,54 @@
+.grafico{
+    text-align: center;
+    margin-top: 4px;
+}
+
+.chartContainer canvas{
+    max-height: 250px;
+    width: auto;
+}
+
+.chartContainer{
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.grafico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    background: #1e1e2f;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    color: #fff;
+  }
+  
+  .grafico p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #00ffc3;
+    text-shadow: 0 0 8px rgba(0, 255, 195, 0.5);
+  }
+  
+  .chartContainer {
+    background: #2a2a40;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  canvas {
+    background: #1e1e2f;
+    border: 2px solid #00ffc3;
+    border-radius: 12px;
+  }
+  
+  
