@@ -34,7 +34,9 @@ mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
 mat-label, mat-hint {
   color: #bbb !important;
 }
-
+input{
+  color: #fff !important;
+}
 /* Botones */
 button[mat-raised-button] {
   background: linear-gradient(to bottom, #bd62ea, #3b70c4);
