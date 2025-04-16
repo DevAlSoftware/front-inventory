@@ -49,7 +49,7 @@
   </div>
 
 <!-- Tabla de productos agregados -->
-<table mat-table [dataSource]="saleDetails" class="full-width" *ngIf="saleDetails.length > 0">
+<table mat-table [dataSource]="dataSource" class="full-width" *ngIf="dataSource.data.length > 0">
 
   <ng-container matColumnDef="product">
     <th mat-header-cell *matHeaderCellDef>Producto</th>
@@ -95,6 +95,19 @@
   <div class="total-container" style="margin-top: 1rem;" *ngIf="saleDetails.length > 0">
     <strong>Total Venta:</strong> {{ getTotalSale() | moneda }}
   </div>
+
+  <!-- Total venta -->
+<div class="total-container" style="margin-top: 1rem;" *ngIf="saleDetails.length > 0">
+  <p><strong>Subtotal sin ganancia:</strong> {{ subtotalSinGanancia | moneda }}</p>
+  <p><strong>Ganancia total:</strong> {{ ganancia | moneda }}</p>
+  <p><strong>Total Venta:</strong> {{ getTotalSale() | moneda }}</p>
+</div>
+
+<div *ngIf="saleDetails.length > 0" style="margin-top: 1rem;">
+  <p><strong>Subtotal sin ganancia:</strong> {{ subtotalSinGanancia | moneda }}</p>
+  <p><strong>Ganancia:</strong> {{ ganancia | moneda }}</p>
+  <p><strong>Total venta:</strong> {{ totalVenta | moneda }}</p>
+</div>
 
 </mat-dialog-content>
 

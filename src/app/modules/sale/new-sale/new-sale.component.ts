@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { SaleService } from '../../shared/services/sale.service';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { MonedaPipe } from '../../../moneda.pipe';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../shared/material.module';
+
 
 interface SaleDetail {
   product: any;
@@ -21,7 +22,7 @@ interface SaleDetail {
   selector: 'app-new-sale',
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSnackBarModule,
-    MaterialModule, FormsModule, MonedaPipe],
+    MaterialModule, FormsModule, MonedaPipe ],
   templateUrl: './new-sale.component.html',
   styleUrls: ['./new-sale.component.css']
 })
@@ -37,6 +38,13 @@ export class NewSaleComponent {
   selectedProductId: number | null = null;
   selectedProduct: any = null;
   selectedQuantity: number = 1;
+
+  
+  subtotalSinGanancia: number = 0;
+  ganancia: number = 0;
+  totalVenta: number = 0;
+
+  dataSource = new MatTableDataSource<any>(this.saleDetails);
 
   private saleService = inject(SaleService);
 
@@ -72,35 +80,36 @@ export class NewSaleComponent {
   }
 
   addProductToSale() {
-    if (!this.selectedProduct || this.selectedQuantity < 1) return;
-
-    if (this.selectedQuantity > this.selectedProduct.account) {
-      this.snackBar.open('Cantidad excede el stock disponible', 'OK', { duration: 2000 });
-      return;
-    }
-
-    const alreadyInSale = this.saleDetails.find(item => item.product.id === this.selectedProduct.id);
-    if (alreadyInSale) {
-      this.snackBar.open('Este producto ya fue agregado', 'OK', { duration: 2000 });
-      return;
-    }
-
-    const newItem = {
-      product: this.selectedProduct,
+    const selectedProduct = this.products.find(p => p.id === this.selectedProductId);
+  
+    if (!selectedProduct || !this.selectedQuantity || this.selectedQuantity <= 0) return;
+  
+    const profitPercentage = 0;
+  
+    const detail = {
+      product: selectedProduct,
       quantity: this.selectedQuantity,
-      price: this.selectedProduct.price,
-      profitPercentage: 0.1,
-      total: this.calculateTotal(this.selectedProduct.price, this.selectedQuantity, 0.1)
+      price: selectedProduct.price,
+      profitPercentage: profitPercentage,
+      total: selectedProduct.price * (1 + profitPercentage / 100) * this.selectedQuantity
     };
-
-    this.saleDetails = [...this.saleDetails, newItem];
+  
+    this.saleDetails.push(detail);
+    this.dataSource.data = [...this.saleDetails]; // 🔥 ¡ESTO ACTUALIZA LA TABLA!
+  
+    this.selectedQuantity = 1;
     this.selectedProductId = null;
     this.selectedProduct = null;
-    this.selectedQuantity = 1;
+  
+    this.updateResumenVenta();
   }
+  
+  
 
   updateTotal(item: any) {
-    item.total = this.calculateTotal(item.price, item.quantity, item.profitPercentage);
+    item.total = item.price * (1 + item.profitPercentage / 100) * item.quantity;
+    this.updateResumenVenta();
+    this.dataSource.data = [...this.saleDetails];
   }
 
   calculateTotal(price: number, quantity: number, profit: number): number {
@@ -110,6 +119,33 @@ export class NewSaleComponent {
   getTotalSale(): number {
     return this.saleDetails.reduce((acc, item) => acc + item.total, 0);
   }
+
+  getTotalVentaSinGanancia(): number {
+    return this.saleDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }
+  
+  getGanancia(): number {
+    return this.saleDetails.reduce((sum, item) => {
+      const subtotalConGanancia = item.price * (1 + (item.profitPercentage / 100)) * item.quantity;
+      const subtotalSinGanancia = item.price * item.quantity;
+      return sum + (subtotalConGanancia - subtotalSinGanancia);
+    }, 0);
+  }
+
+  updateResumenVenta() {
+    this.subtotalSinGanancia = this.saleDetails.reduce((sum, item) => {
+      return sum + item.price * item.quantity;
+    }, 0);
+  
+    this.ganancia = this.saleDetails.reduce((sum, item) => {
+      const totalSinGanancia = item.price * item.quantity;
+      const totalConGanancia = item.total;
+      return sum + (totalConGanancia - totalSinGanancia);
+    }, 0);
+  
+    this.totalVenta = this.subtotalSinGanancia + this.ganancia;
+  }
+  
 
   saveSale() {
     const salePayload = {
@@ -139,7 +175,7 @@ export class NewSaleComponent {
           this.getProducts();
   
           // Navegar a la vista de detalles de la venta
-          this.router.navigate(['/dashboard/saleDetail', saleId]);
+          this.router.navigate(['/dashboard/home']);
         } else {
           this.snackBar.open('ID de venta no encontrado en la respuesta', 'OK', { duration: 2000 });
         }
@@ -155,9 +191,8 @@ export class NewSaleComponent {
   }
 
   removeProduct(index: number) {
-    if (index > -1 && index < this.saleDetails.length) {
-      this.saleDetails.splice(index, 1);
-      this.snackBar.open('Producto eliminado', 'OK', { duration: 2000 });
-    }
+    this.saleDetails.splice(index, 1);
+    this.dataSource.data = [...this.saleDetails];
+    this.updateResumenVenta();
   }
 }
