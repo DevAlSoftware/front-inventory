@@ -29,7 +29,36 @@ export class SaleListComponent implements OnInit {
       next: (response: any) => {
         console.log('Respuesta recibida:', response);
         if (response?.saleResponse?.sale) {
-          this.dataSource.data = response.saleResponse.sale;
+          const ventas = response.saleResponse.sale;
+  
+          // Procesar cada venta para calcular subtotal y ganancia
+          const ventasConTotales = ventas.map((venta: any) => {
+            let subtotal = 0;
+            let total = 0;
+  
+            venta.saleDetails.forEach((detalle: any) => {
+              console.log('Detalle:', detalle);
+              const precio = detalle.product.price || 0;
+              const cantidad = detalle.quantity || 0;
+              const aumento = detalle.profitPercentage  || 0;
+  
+              const subtotalDetalle = precio * cantidad;
+              const totalDetalle = subtotalDetalle * (1 + aumento / 100);
+  
+              subtotal += subtotalDetalle;
+              total += totalDetalle;
+            });
+  
+            // Agregar los campos calculados
+            return {
+              ...venta,
+              subtotalSinGanancia: subtotal,
+              ganancia: total - subtotal,
+            };
+          });
+          console.log('Venta con totales:', ventasConTotales);
+  
+          this.dataSource.data = ventasConTotales;
         } else {
           this.snackBar.open('No se encontraron ventas', 'OK', { duration: 2000 });
         }
