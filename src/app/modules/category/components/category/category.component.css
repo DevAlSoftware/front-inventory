@@ -55,6 +55,18 @@ button[mat-raised-button]:hover{
   background-color: #e8e1d8;
   color: #b4975a;
 }
+button[mat-button]{
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  color: #6e5849;
+  background-color: transparent;
+}
+button[mat-button]:hover{
+  background-color: #e8e1d8;
+  color: #b4975a;
+}
 
 /* Tabla */
 table {
