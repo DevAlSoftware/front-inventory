@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,18 @@ export class LoginComponent implements OnInit {
   constructor(private snack:MatSnackBar,private loginService:LoginService,private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  
+
+  private createAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return new HttpHeaders({
+        Authorization: `Bearer ${token}` 
+      });
+    }
+    return new HttpHeaders();
   }
 
   formSubmit(){
@@ -61,13 +74,13 @@ export class LoginComponent implements OnInit {
           if(this.loginService.getUserRole() == 'ADMIN'){
             //dashboard admin
             //window.location.href = '/admin';
-            this.router.navigate(['admin']);
+            this.router.navigate(['/dashboard/home']);
             this.loginService.loginStatusSubjec.next(true);
           }
           else if(this.loginService.getUserRole() == 'NORMAL'){
             //user dashboard
             //window.location.href = '/user-dashboard';
-            this.router.navigate(['user-dashboard/0']);
+            this.router.navigate(['home']);
             this.loginService.loginStatusSubjec.next(true);
           }
           else{

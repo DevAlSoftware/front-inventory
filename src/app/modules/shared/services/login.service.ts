@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import baserUrl from '../../models/helper';
@@ -14,22 +14,20 @@ export class LoginService {
 
   //generamos el token
   public generateToken(loginData:any){
-    return this.http.post(`${baserUrl}/usuarios/generate-token`,loginData);
+    return this.http.post(`${baserUrl}/generate-token`,loginData);
   }
 
-  public getCurrentUser() {
-    const token = this.getToken();
-    const headers = {
-      'Authorization': `Bearer ${token}`
-    };
-    return this.http.get(`${baserUrl}/usuarios/actual-usuario`, { headers });
+  public getCurrentUser(){
+    return this.http.get(`${baserUrl}/login`);
   }
 
   //iniciamos sesión y establecemos el token en el localStorage
-  public loginUser(token:any){
-    localStorage.setItem('token',token);
+  public loginUser(token: string) {
+    const cleanedToken = token.trim();
+    localStorage.setItem('token', cleanedToken); 
     return true;
   }
+  
 
   public isLoggedIn(){
     let tokenStr = localStorage.getItem('token');
