@@ -3,7 +3,7 @@
     <mat-sidenav #sidenav mode="side" opened class="sidebar">
       <div class="logo">
         Valu Luxury Brands
-        <h2>{{ username }}</h2> 
+        <h4>{{ email }}</h4> 
       </div>
       <mat-nav-list>
         <div *ngFor="let nav of menuNav; let i = index" [routerLink]="nav.route" [ngStyle]="{'--i': i}">
