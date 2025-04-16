@@ -22,7 +22,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    background: #1e1e2f;
+    background: #00ffc3;
     padding: 3rem 2rem;
     border-radius: 20px;
     color: #fff;
@@ -46,8 +46,8 @@
   }
   
   canvas {
-    background: #1e1e2f;
-    border: 2px solid #00ffc3;
+    background: #ec6f09;
+    border: 2px solid #2a2a40;
     border-radius: 12px;
   }
   
