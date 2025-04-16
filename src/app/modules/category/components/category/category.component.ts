@@ -106,7 +106,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  buscar(termino: string) {
+ /* buscar(termino: string) {
     if (termino.length === 0) {
       return this.getCategories();
     }
@@ -114,7 +114,17 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       .subscribe((resp: any) => {
         this.processCategoriesResponse(resp);
       });
-  }
+  }*/
+
+  buscar(name: string) {
+    if (!name.trim()) {
+      return this.getCategories();
+    }
+    
+    this.categoryService.getCategoryByName(name).subscribe((resp: any) => {
+      this.processCategoriesResponse(resp);
+    });
+  }    
 
   openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar>{
     return this.snackBar.open(message, action, {

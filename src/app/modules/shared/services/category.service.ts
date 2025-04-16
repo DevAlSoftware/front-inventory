@@ -52,6 +52,14 @@ export class CategoryService {
     return this.http.get(endpoint);
   }
 
+  /**
+   * search by name
+   */
+  getCategoryByName(name: any){
+    const endpoint = `${base_url}/categories/filter/${name}`;
+    return this.http.get(endpoint);
+  }
+
 
   /**
    * export excel categories
