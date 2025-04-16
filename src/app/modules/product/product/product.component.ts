@@ -16,6 +16,8 @@ export interface ProductElement {
   name: string;
   price: number;
   account: number;
+  code: string;
+  ubication: string;
   category: any;
   picture: any;
 }
@@ -35,7 +37,7 @@ export class ProductComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'name', 'price', 'account', 'category', 'picture', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'price', 'account', 'code', 'ubication', 'category', 'picture', 'actions'];
   dataSource = new MatTableDataSource<ProductElement>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -89,10 +91,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  edit(id: number, name: string, price: number, account: number, category: any) {
+  edit(id: number, name: string, price: number, account: number, code: string, ubication: string, category: any) {
     const dialogRef = this.dialog.open(NewProductComponent, {
       width: '450px',
-      data: { id, name, price, account, category }
+      data: { id, name, price, account, code, ubication, category }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -156,6 +158,8 @@ export interface ProductElement {
   name: string;
   price: number;
   account: number;
+  code: string;
+  ubication: string;
   category: any;
   picture: any;
 }
