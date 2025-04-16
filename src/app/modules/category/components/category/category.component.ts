@@ -116,10 +116,40 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       });
   }
 
-  openSnackBar(message: string, action: string): MatSnackBarRef<SimpleSnackBar> {
-    return this.snackBar.open(message, action, { duration: 2000 });
+  openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar>{
+    return this.snackBar.open(message, action, {
+      duration: 2000
+    })
+
   }
+
+  exportExcel(){
+
+    this.categoryService.exportCategories()
+        .subscribe( (data: any) => {
+          let file = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+          let fileUrl = URL.createObjectURL(file);
+          var anchor = document.createElement("a");
+          anchor.download = "categories.xlsx";
+          anchor.href = fileUrl;
+          anchor.click();
+
+          this.openSnackBar("Archivo exportado correctamente", "Exitosa");
+        }, (error: any) =>{
+          this.openSnackBar("No se pudo exportar el archivo", "Error");
+        })
+
+  }
+
 }
+
+export interface CategoryElement {
+  description: string;
+  id: number;
+  name: string;
+}
+
+
 
 export interface CategoryElement {
   description: string;
