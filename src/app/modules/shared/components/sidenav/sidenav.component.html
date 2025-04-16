@@ -3,11 +3,14 @@
     <mat-sidenav #sidenav mode="side" opened class="sidebar">
       <div class="logo">
         Valu Luxury Brands
-        <h2>{{ username }}</h2> 
+        <h2 *ngIf="user">{{ user.email }}</h2>
       </div>
       <mat-nav-list>
-        <div *ngFor="let nav of menuNav; let i = index" [routerLink]="nav.route" [ngStyle]="{'--i': i}">
-          <a class="icono-name" [routerLink]="nav.route" routerLinkActive="active-link" [ngStyle]="{'--i': i}" [routerLinkActiveOptions]="{ exact: true }">
+        <div *ngFor="let nav of menuNav; let i = index" [ngStyle]="{'--i': i}">
+          <a class="icono-name"
+             [routerLink]="nav.route"
+             routerLinkActive="active-link"
+             [routerLinkActiveOptions]="{ exact: true }">
             <mat-icon class="icono">{{ nav.icon }}</mat-icon>
             <span class="name">{{ nav.name }}</span>
           </a>
@@ -20,21 +23,44 @@
         <button mat-icon-button (click)="sidenav.toggle()" class="hide-desktop">
           <mat-icon>menu</mat-icon>
         </button>
+
         <span class="navbar-title">Sistema de Inventarios</span>
         <span class="spacer"></span>
+
         <div class="navbar-actions">
-          <button mat-icon-button>
-            <mat-icon>notifications</mat-icon>
-          </button>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>person_outline</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item >
-              <mat-icon>exit_to_app</mat-icon>
-              Cerrar Sesión
+
+          <!-- Si el usuario está logeado -->
+          <ng-container *ngIf="isLoggedIn; else guestOptions">
+            <button mat-icon-button>
+              <mat-icon>notifications</mat-icon>
             </button>
-          </mat-menu>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>person_outline</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Cerrar Sesión
+              </button>
+            </mat-menu>
+
+            <span class="user-email">{{ user?.email }}</span>
+          </ng-container>
+
+          <!-- Si el usuario NO está logeado -->
+          <ng-template #guestOptions>
+            <a [routerLink]="'/login'" mat-icon-button>
+              <mat-icon>account_circle</mat-icon>
+              <span class="ml-2">Iniciar Sesión</span>
+            </a>
+           <!---- <a [routerLink]="'/signup'" mat-icon-button>
+              <mat-icon>app_registration</mat-icon>
+              <span class="ml-2">Crear Cuenta</span>
+            </a>-->
+          </ng-template>
+
         </div>
       </mat-toolbar>
 
