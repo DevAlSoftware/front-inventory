@@ -1,12 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MonedaPipe } from '../../../moneda.pipe';
 import { SaleService } from '../../shared/services/sale.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../shared/material.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sale-list',
-  imports: [MonedaPipe, MatTableModule],
+  imports: [MonedaPipe, CommonModule, 
+    MaterialModule,
+    MatTableModule, 
+    MatPaginatorModule, 
+    MatDialogModule, 
+    MatSnackBarModule,
+    FormsModule],
   templateUrl: './sale-list.component.html',
   styleUrl: './sale-list.component.css',
   standalone: true
@@ -69,4 +80,48 @@ export class SaleListComponent implements OnInit {
       }
     });
   }
+
+  openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar>{
+    return this.snackBar.open(message, action, {
+      duration: 2000
+    })
+
+  }
+
+  exportExcel() {
+    this.saleService.exportSales()
+      .subscribe((data: any) => {
+        const file = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const fileUrl = URL.createObjectURL(file);
+        const anchor = document.createElement("a");
+        anchor.href = fileUrl;
+        anchor.download = "ventas.xlsx";
+        anchor.click();
+  
+        this.openSnackBar("Archivo exportado correctamente", "Exitosa");
+      }, (error: any) => {
+        this.openSnackBar("No se pudo exportar el archivo", "Error");
+      });
+  }
+
+  
+}
+
+export interface SaleDetailElement {
+  productName: string;
+  quantity: number;
+  price: number;
+  profitPercentage: number;
+}
+
+export interface SaleElement {
+  id: number;
+  customerName: string;
+  saleDate: string;
+  subtotalSinGanancia: number;
+  ganancia: number;
+  total: number;
+  saleDetails: SaleDetailElement[];
 }

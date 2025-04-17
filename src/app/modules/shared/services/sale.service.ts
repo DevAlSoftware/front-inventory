@@ -41,17 +41,6 @@ export class SaleService {
     const endpoint = `${base_url}/sales/filter/${name}`;
     return this.http.get(endpoint);
   }
-
-  /**
-   * Exportar ventas a Excel
-   */
-  exportSales() {
-    const endpoint = `${base_url}/sales/export/excel`;
-    return this.http.get(endpoint, {
-      responseType: 'blob'
-    });
-  }
-
   /**
    * Obtener productos disponibles (por si necesitas mostrar productos para agregar en saleDetails)
    */
@@ -67,4 +56,14 @@ export class SaleService {
     const endpoint = `${base_url}/customers`;
     return this.http.get(endpoint);
   }
+
+  /**
+ * Exportar ventas a Excel
+ */
+exportSales() {
+  const endpoint = `${base_url}/sales/export/excel`;
+  return this.http.get(endpoint, {
+    responseType: 'blob'
+  });
+}
 }
