@@ -23,6 +23,8 @@ import { ProductElement } from 'src/app/modules/product/product/product.componen
 import { ProductService } from 'src/app/modules/shared/services/product.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { MonedaPipe } from 'src/app/moneda.pipe';
 
 Chart.register(
   BarController,
@@ -33,7 +35,8 @@ Chart.register(
   PieController,
   ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels 
 );
 
 @Component({
@@ -79,14 +82,16 @@ export class HomeComponent implements OnInit {
     if (this.chartInstance) {
       this.chartInstance.destroy();
     }
-
+  
     const field = this.chartField();
     const labels = this.products.map((p) => p.name);
     const data = this.products.map((p) => {
       const value = p[field as keyof ProductElement];
       return typeof value === 'number' ? value : 0;
     });
-
+  
+    const additionalData = this.products.map((p) => p.account || p.price) ; // Para mostrar cantidad o precio
+  
     const backgroundColors = [
       '#36a2eb',
       '#ff6384',
@@ -95,7 +100,7 @@ export class HomeComponent implements OnInit {
       '#9966ff',
       '#ff9f40',
     ];
-
+  
     this.chartInstance = new Chart(this.dynamicCanvas.nativeElement, {
       type: this.chartType() as any,
       data: {
@@ -110,17 +115,19 @@ export class HomeComponent implements OnInit {
       },
       options: {
         responsive: true,
+        plugins: {
+          datalabels: {
+            anchor: 'center', // Centra las etiquetas
+            align: 'center',
+            formatter: (value: any, context: any) => {
+              // Muestra cantidad o precio dependiendo del campo
+              const additionalValue = additionalData[context.dataIndex];
+              return `${additionalValue} ${this.chartField() === 'account' ? 'unidades' : '$'}`;
+            },
+            color: 'white', // Color de las etiquetas
+          }
+        }
       },
     });
-  }
-
-  onChartTypeChange(type: string) {
-    this.chartType.set(type);
-    this.createChart();
-  }
-
-  onFieldChange(field: string) {
-    this.chartField.set(field);
-    this.createChart();
-  }
+  }  
 }
