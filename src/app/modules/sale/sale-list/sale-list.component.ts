@@ -1,28 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MonedaPipe } from '../../../moneda.pipe';
 import { SaleService } from '../../shared/services/sale.service';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../shared/material.module';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sale-list',
-  imports: [MonedaPipe, CommonModule, 
+  imports: [MonedaPipe, CommonModule,
     MaterialModule,
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatDialogModule, 
+    MatTableModule,
+    MatPaginatorModule,
+    MatDialogModule,
     MatSnackBarModule,
     FormsModule],
   templateUrl: './sale-list.component.html',
   styleUrl: './sale-list.component.css',
   standalone: true
 })
-export class SaleListComponent implements OnInit {
+export class SaleListComponent implements OnInit, AfterViewInit {
+
+  public dialog = inject(MatDialog);
+
   displayedColumns: string[] = ['id', 'customer', 'saleDate', 'subtotal', 'ganancia', 'details'];
   dataSource = new MatTableDataSource<any>();
 
@@ -31,8 +34,14 @@ export class SaleListComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   ngOnInit(): void {
-    this.getSales();  // Cargar las ventas completas al inicio
+    this.getSales(); 
   }
 
   getSales() {
@@ -87,6 +96,9 @@ export class SaleListComponent implements OnInit {
     })
 
   }
+
+  buscar(name: string) {
+  } 
 
   exportExcel() {
     this.saleService.exportSales()
