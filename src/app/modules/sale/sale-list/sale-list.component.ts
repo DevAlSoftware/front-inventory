@@ -47,7 +47,6 @@ export class SaleListComponent implements OnInit, AfterViewInit {
   getSales() {
     this.saleService.getSales().subscribe({
       next: (response: any) => {
-        console.log('Respuesta recibida:', response);
         if (response?.saleResponse?.sale) {
           const ventas = response.saleResponse.sale;
   
@@ -57,7 +56,6 @@ export class SaleListComponent implements OnInit, AfterViewInit {
             let total = 0;
   
             venta.saleDetails.forEach((detalle: any) => {
-              console.log('Detalle:', detalle);
               const precio = detalle.product.price || 0;
               const cantidad = detalle.quantity || 0;
               const aumento = detalle.profitPercentage  || 0;
@@ -76,7 +74,7 @@ export class SaleListComponent implements OnInit, AfterViewInit {
               ganancia: total - subtotal,
             };
           });
-          console.log('Venta con totales:', ventasConTotales);
+          //console.log('Venta con totales:', ventasConTotales);
   
           this.dataSource.data = ventasConTotales;
         } else {

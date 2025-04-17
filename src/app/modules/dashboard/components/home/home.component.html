@@ -1,14 +1,27 @@
 <div class="grafico">
-    <p> Bienvenidos </p>
-  
-    <!-- chart doughnut-->
-    <div class="chartContainer">
-      <canvas #doughnutCanvas width="400" height="400"></canvas>
-    </div>
-  
-    <!-- chart bar-->
-    <div class="chartContainer">
-      <canvas #barCanvas width="400" height="400"></canvas>
-    </div>
+  <p> Bienvenidos </p>
+
+  <!-- Filtros -->
+  <div class="chartControls">
+    <label for="type">Tipo de gráfico:</label>
+    <select id="type" [(ngModel)]="chartType">
+      <option value="bar">Barra</option>
+      <option value="doughnut">Doughnut</option>
+      <option value="pie">Pie</option>
+    </select>
+
+    <label for="field">Campo:</label>
+    <select id="field" [(ngModel)]="chartField">
+      <option value="account">Cantidad</option>
+      <option value="price">Precio</option>
+      <!-- agrega más si tus productos tienen más campos -->
+    </select>
+
+    <button (click)="createChart()">Generar gráfico</button>
   </div>
-  
+
+  <!-- Canvas dinámico -->
+  <div class="chartContainer">
+    <canvas #dynamicCanvas width="400" height="400"></canvas>
+  </div>
+</div>

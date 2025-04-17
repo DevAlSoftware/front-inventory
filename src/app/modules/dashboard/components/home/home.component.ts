@@ -1,33 +1,61 @@
-import { Component, inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { Chart } from 'chart.js';
-import { ProductElement } from 'src/app/modules/product/product/product.component';
-import { ProductService } from 'src/app/modules/shared/services/product.service';
 import {
   BarController,
   BarElement,
   CategoryScale,
   LinearScale,
   DoughnutController,
+  PieController,
   ArcElement,
   Tooltip,
   Legend,
 } from 'chart.js';
+import { ProductElement } from 'src/app/modules/product/product/product.component';
+import { ProductService } from 'src/app/modules/shared/services/product.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  DoughnutController,
+  PieController,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-
-  chartBar: any;
-  chartDoughnut: any;
-
-  @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('doughnutCanvas') doughnutCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('dynamicCanvas') dynamicCanvas!: ElementRef<HTMLCanvasElement>;
 
   private productService = inject(ProductService);
+  products: ProductElement[] = [];
+
+  chartInstance: Chart | null = null;
+
+  chartType: WritableSignal<string> = signal('bar');
+  chartField: WritableSignal<string> = signal('account');
+
+  availableChartTypes: string[] = ['bar', 'doughnut', 'pie'];
+  availableFields: string[] = ['account', 'stock', 'price', 'name'];
 
   ngOnInit(): void {
     this.getProducts();
@@ -36,59 +64,63 @@ export class HomeComponent implements OnInit {
   getProducts() {
     this.productService.getProducts().subscribe({
       next: (data: any) => {
-        console.log("Respuesta de productos: ", data);
-        this.processProductResponse(data);
+        if (data.metadata[0].code === '00') {
+          this.products = data.product.products;
+          this.createChart();
+        }
       },
       error: (err) => {
-        console.error("Error en productos: ", err);
-      }
+        console.error('Error al obtener productos:', err);
+      },
     });
   }
 
-  processProductResponse(resp: any) {
-    const nameProduct: string[] = [];
-    const account: number[] = [];
-
-    if (resp.metadata[0].code === "00") {
-      const listCProduct: ProductElement[] = resp.product.products;
-
-      listCProduct.forEach((element) => {
-        nameProduct.push(element.name);
-        account.push(element.account);
-      });
-
-      Chart.register(
-        BarController,
-        BarElement,
-        CategoryScale,
-        LinearScale,
-        DoughnutController,
-        ArcElement,
-        Tooltip,
-        Legend
-      );
-
-      // Gráfico de barras
-      this.chartBar = new Chart(this.barCanvas.nativeElement, {
-        type: 'bar',
-        data: {
-          labels: nameProduct,
-          datasets: [
-            { label: 'Productos', data: account }
-          ]
-        }
-      });
-
-      // Gráfico de doughnut
-      this.chartDoughnut = new Chart(this.doughnutCanvas.nativeElement, {
-        type: 'doughnut',
-        data: {
-          labels: nameProduct,
-          datasets: [
-            { label: 'Productos', data: account }
-          ]
-        }
-      });
+  createChart() {
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
     }
+
+    const field = this.chartField();
+    const labels = this.products.map((p) => p.name);
+    const data = this.products.map((p) => {
+      const value = p[field as keyof ProductElement];
+      return typeof value === 'number' ? value : 0;
+    });
+
+    const backgroundColors = [
+      '#36a2eb',
+      '#ff6384',
+      '#ffcd56',
+      '#4bc0c0',
+      '#9966ff',
+      '#ff9f40',
+    ];
+
+    this.chartInstance = new Chart(this.dynamicCanvas.nativeElement, {
+      type: this.chartType() as any,
+      data: {
+        labels,
+        datasets: [
+          {
+            label: `Productos por ${field}`,
+            data,
+            backgroundColor: backgroundColors,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+      },
+    });
+  }
+
+  onChartTypeChange(type: string) {
+    this.chartType.set(type);
+    this.createChart();
+  }
+
+  onFieldChange(field: string) {
+    this.chartField.set(field);
+    this.createChart();
   }
 }

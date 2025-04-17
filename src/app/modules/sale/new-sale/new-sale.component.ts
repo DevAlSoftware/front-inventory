@@ -59,7 +59,7 @@ export class NewSaleComponent {
   getCustomers() {
     this.saleService.getCustomers().subscribe({
       next: (res: any) => {
-        console.log('👉 Respuesta de clientes:', res);
+        console.log(' Respuesta de clientes:', res);
         this.customers = res.customerResponse.customer;
       },
       error: () => {
@@ -148,6 +148,11 @@ export class NewSaleComponent {
   
 
   saveSale() {
+    if (!this.selectedCustomer) {
+      this.snackBar.open('El cliente es obligatorio para crear una venta', 'OK', { duration: 3000 });
+      return;
+    }
+  
     const salePayload = {
       customer: { id: this.selectedCustomer },
       saleDate: this.saleDate,
@@ -163,18 +168,11 @@ export class NewSaleComponent {
   
     this.saleService.saveSale(salePayload).subscribe({
       next: (res: any) => {
-        console.log('Respuesta del backend:', res); // Esto te permite ver la respuesta en consola
-  
-        // Acceder al ID correctamente
-        const saleId = res.saleResponse?.sale?.[0]?.id; // Cambiar la forma de acceder al ID
+        const saleId = res.saleResponse?.sale?.[0]?.id;
   
         if (saleId) {
           this.snackBar.open('Venta guardada con éxito', 'OK', { duration: 2000 });
-  
-          // Aquí es donde actualizamos la lista de productos con stock actualizado
           this.getProducts();
-  
-          // Navegar a la vista de detalles de la venta
           this.router.navigate(['/dashboard/home']);
         } else {
           this.snackBar.open('ID de venta no encontrado en la respuesta', 'OK', { duration: 2000 });
