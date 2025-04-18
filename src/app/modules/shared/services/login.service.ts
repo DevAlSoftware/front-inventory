@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Subject } from 'rxjs';
 import baserUrl from '../../models/helper';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class LoginService {
 
   public loginStatusSubjec = new Subject<boolean>();
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   //generamos el token
   public generateToken(loginData:any){
@@ -24,48 +25,57 @@ export class LoginService {
   //iniciamos sesión y establecemos el token en el localStorage
   public loginUser(token: string) {
     const cleanedToken = token.trim();
-    localStorage.setItem('token', cleanedToken); 
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', cleanedToken);
+    }
     return true;
   }
   
 
-  public isLoggedIn(){
-    let tokenStr = localStorage.getItem('token');
-    if(tokenStr == undefined || tokenStr == '' || tokenStr == null){
-      return false;
-    }else{
-      return true;
+  isLoggedIn(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('user');
     }
+    return false;
   }
 
   //cerranis sesion y eliminamos el token del localStorage
-  public logout(){
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+  public logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
     return true;
   }
 
   //obtenemos el token
-  public getToken(){
-    return localStorage.getItem('token');
+  public getToken() {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
-
-  public setUser(user:any){
-    localStorage.setItem('user', JSON.stringify(user));
-  }
-
-  public getUser(){
-    let userStr = localStorage.getItem('user');
-    if(userStr != null){
-      return JSON.parse(userStr);
-    }else{
-      this.logout();
-      return null;
+  public setUser(user: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('user', JSON.stringify(user));
     }
   }
 
-  public getUserRole(){
-    let user = this.getUser();
-    return user.authorities[0].authority;
+  public getUser() {
+    if (isPlatformBrowser(this.platformId)) {
+      let userStr = localStorage.getItem('user');
+      if (userStr != null) {
+        return JSON.parse(userStr);
+      } else {
+        this.logout();
+        return null;
+      }
+    }
+    return null;
+  }
+
+  public getUserRole() {
+    const user = this.getUser();
+    return user?.authorities?.[0]?.authority ?? null;
   }
 }

@@ -95,9 +95,6 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   }
 
-  buscar(name: string) {
-  } 
-
   exportExcel() {
     this.saleService.exportSales()
       .subscribe((data: any) => {
@@ -116,7 +113,21 @@ export class SaleListComponent implements OnInit, AfterViewInit {
       });
   }
 
+  buscar(nombreProducto: string) {
+    if (!nombreProducto.trim()) {
+      this.getSales();
+      return;
+    }
   
+    this.saleService.getSalesByProductName(nombreProducto).subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res?.saleResponse?.sale || [];
+      },
+      error: () => {
+        this.snackBar.open('Error al buscar ventas por producto', 'OK', { duration: 2000 });
+      }
+    });
+  }
 }
 
 export interface SaleDetailElement {

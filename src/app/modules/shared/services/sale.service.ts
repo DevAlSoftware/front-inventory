@@ -60,10 +60,18 @@ export class SaleService {
   /**
  * Exportar ventas a Excel
  */
-exportSales() {
-  const endpoint = `${base_url}/sales/export/excel`;
-  return this.http.get(endpoint, {
-    responseType: 'blob'
-  });
-}
+  exportSales() {
+    const endpoint = `${base_url}/sales/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob'
+    });
+  }
+
+  /**
+ * Buscar ventas por nombre de producto
+ */
+  getSalesByProductName(productName: string) {
+    const endpoint = `${base_url}/sales/by-product?name=${encodeURIComponent(productName)}`;
+    return this.http.get(endpoint);
+  }
 }
