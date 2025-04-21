@@ -8,6 +8,7 @@ import { MaterialModule } from '../../shared/material.module';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../shared/services/product.service';
 
 @Component({
   selector: 'app-sale-list',
@@ -28,9 +29,13 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['id', 'customer', 'saleDate', 'subtotal', 'ganancia', 'details'];
   dataSource = new MatTableDataSource<any>();
+  products: any[] = [];
+  selectedProductId: number = 0;
+  sales: any[] = [];
 
   constructor(
     private saleService: SaleService,
+    private productService: ProductService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -41,7 +46,8 @@ export class SaleListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getSales(); 
+    this.getSales();
+    this.getProducts(); 
   }
 
   getSales() {
@@ -58,7 +64,7 @@ export class SaleListComponent implements OnInit, AfterViewInit {
             venta.saleDetails.forEach((detalle: any) => {
               const precio = detalle.product.price || 0;
               const cantidad = detalle.quantity || 0;
-              const aumento = detalle.profitPercentage  || 0;
+              const aumento = detalle.profitPercentage || 0;
   
               const subtotalDetalle = precio * cantidad;
               const totalDetalle = subtotalDetalle * (1 + aumento / 100);
@@ -74,9 +80,9 @@ export class SaleListComponent implements OnInit, AfterViewInit {
               ganancia: total - subtotal,
             };
           });
-          //console.log('Venta con totales:', ventasConTotales);
   
           this.dataSource.data = ventasConTotales;
+          this.sales = ventasConTotales; // <- AQUÍ estaba la falta
         } else {
           this.snackBar.open('No se encontraron ventas', 'OK', { duration: 2000 });
         }
@@ -87,6 +93,7 @@ export class SaleListComponent implements OnInit, AfterViewInit {
       }
     });
   }
+ 
 
   openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar>{
     return this.snackBar.open(message, action, {
@@ -113,22 +120,25 @@ export class SaleListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  buscar(nombreProducto: string) {
-    if (!nombreProducto.trim()) {
-      this.getSales();
+  getProducts() {
+    this.saleService.getProducts().subscribe((res: any) => {
+      this.products = res.product.products;
+    });
+  }
+
+  onProductSelected(event: any) {
+    if (this.selectedProductId === 0) {
+      this.dataSource.data = this.sales;
       return;
     }
   
-    this.saleService.getSalesByProductName(nombreProducto).subscribe({
-      next: (res: any) => {
-        this.dataSource.data = res?.saleResponse?.sale || [];
-      },
-      error: () => {
-        this.snackBar.open('Error al buscar ventas por producto', 'OK', { duration: 2000 });
-      }
-    });
+    this.dataSource.data = this.sales.filter(sale =>
+      sale.saleDetails.some((detail: any) => detail.product.id === this.selectedProductId)
+    );
   }
+
 }
+
 
 export interface SaleDetailElement {
   productName: string;

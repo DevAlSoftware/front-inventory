@@ -67,11 +67,10 @@ export class SaleService {
     });
   }
 
-  /**
- * Buscar ventas por nombre de producto
- */
-  getSalesByProductName(productName: string) {
-    const endpoint = `${base_url}/sales/by-product?name=${encodeURIComponent(productName)}`;
+  getSalesByProductId(productId: number) {
+    const endpoint = `${base_url}/sales/by-product-id?id=${productId}`;
     return this.http.get(endpoint);
   }
+
+  
 }
