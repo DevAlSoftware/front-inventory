@@ -44,6 +44,7 @@ export class SidenavComponent implements OnInit {
     { name: "Nueva Venta", route: "new-sale", icon: "attach_money" },
     { name: "Categorías", route: "category", icon: "category" },
     { name: "Productos", route: "product", icon: "inventory_2" },
+    { name: "Tallas", route: "productSize", icon: "straighten" },
     { name: "Clientes", route: "customer", icon: "group" },
     { name: "Ventas", route: "saleList", icon: "supervisor_account" },
   ];

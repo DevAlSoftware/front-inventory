@@ -1,0 +1,14 @@
+.product-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .product-container > * {
+    width: 100%;
+  }
+  
+  mat-dialog-actions {
+    margin-top: 16px;
+  }
+  
