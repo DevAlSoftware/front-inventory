@@ -39,7 +39,7 @@ export interface SaleDetail {
   templateUrl: './new-sale.component.html',
   styleUrls: ['./new-sale.component.css']
 })
-export class NewSaleComponent {
+export class NewSaleComponent  {
 
   customers: any[] = [];
   products: any[] = [];
