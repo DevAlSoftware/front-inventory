@@ -52,6 +52,7 @@ export class NewSaleComponent  {
   availableSizes: any[] = [];  // Esta es la propiedad que necesitamos
   selectedPriceType: 'RETAIL' | 'WHOLESALER' = 'RETAIL';
   selectedProfitPercentage: number = 0;  
+  manualDiscount: number = 0;
   
   selectedProductId: number | null = null;
   selectedProduct: any = null;
@@ -248,21 +249,21 @@ export class NewSaleComponent  {
     }, 0);
   }
 
+  /// Función para actualizar el resumen con el descuento manual
   updateResumenVenta() {
-    // Subtotal sin ganancia
+    // Convertir manualDiscount a número si es necesario
+    this.manualDiscount = parseFloat(this.manualDiscount.toString()) || 0;
+
+    // Calcular el subtotal sin ganancia
     this.subtotalSinGanancia = this.saleDetails.reduce((sum, item) => {
       return sum + item.price * item.quantity;
     }, 0);
-  
-    // Ganancia
-    this.ganancia = this.saleDetails.reduce((sum, item) => {
-      const subtotalConGanancia = item.price * (1 + (item.profitPercentage / 100)) * item.quantity;
-      const subtotalSinGanancia = item.price * item.quantity;
-      return sum + (subtotalConGanancia - subtotalSinGanancia);
-    }, 0);
-  
-    // Total de la venta
-    this.totalVenta = this.subtotalSinGanancia + this.ganancia;
+
+    // Ganancia es el descuento manual ingresado
+    this.ganancia = this.manualDiscount;
+
+    // Total venta es el subtotal menos el descuento
+    this.totalVenta = this.subtotalSinGanancia - this.ganancia;
   }
 
   // Guardar la venta
