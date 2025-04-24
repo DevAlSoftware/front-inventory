@@ -72,5 +72,22 @@ export class SaleService {
     return this.http.get(endpoint);
   }
 
-  
+  getSizesByProduct(productId: number) {
+    const endpoint = `${base_url}/product-sizes/product/${productId}`;
+    return this.http.get(endpoint);
+  }
+
+  /**
+   * Método para registrar la venta y actualizar stock
+   */
+  recordSale(productId: number, size: string, quantity: number) {
+    // Aquí es donde simplemente mandamos los datos necesarios al backend
+    const body = {
+      productId,
+      size,
+      quantity
+    };
+    const endpoint = `${base_url}/sales/record`;
+    return this.http.post(endpoint, body);
+  }
 }

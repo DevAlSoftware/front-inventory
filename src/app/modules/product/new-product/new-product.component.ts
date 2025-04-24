@@ -45,9 +45,10 @@ export class NewProductComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
-      account: ['', Validators.required],
       code: ['', Validators.required],
       ubication: ['', Validators.required],
+      retail: ['', Validators.required],
+      wholesaler: ['', Validators.required],
       category: ['', Validators.required],
       picture: ['', Validators.required]
     });
@@ -67,9 +68,10 @@ export class NewProductComponent implements OnInit {
     uploadImageData.append('picture', this.selectedFile, this.selectedFile.name);
     uploadImageData.append('name', this.productForm.get('name')?.value);
     uploadImageData.append('price', this.productForm.get('price')?.value);
-    uploadImageData.append('account', this.productForm.get('account')?.value);
     uploadImageData.append('code', this.productForm.get('code')?.value);
     uploadImageData.append('ubication', this.productForm.get('ubication')?.value);
+    uploadImageData.append('retail', this.productForm.get('retail')?.value);
+    uploadImageData.append('wholesaler', this.productForm.get('wholesaler')?.value);
     uploadImageData.append('categoryId', this.productForm.get('category')?.value);
 
     const request = this.data
@@ -121,8 +123,9 @@ this.notificationService.sendNotification(
       code: data.code,
       name: data.name,
       price: data.price,
-      account: data.account,
       ubication: data.ubication,
+      retail: data.retail,
+      wholesaler: data.wholesaler,
       category: data.category.id,
       picture: ''
     });

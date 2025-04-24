@@ -17,9 +17,11 @@ export interface ProductElement {
   price: number;
   account: number;
   code: string;
-  ubication: string;
   category: any;
   picture: any;
+  ubication: string;
+  retail: number;
+  wholesaler: number;
 }
 
 @Component({
@@ -37,7 +39,7 @@ export class ProductComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'name', 'price', 'account', 'code', 'ubication', 'category', 'picture', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'price', 'account', 'code', 'ubication', 'retail', 'wholesaler', 'category', 'picture', 'actions'];
   dataSource = new MatTableDataSource<ProductElement>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -50,13 +52,14 @@ export class ProductComponent implements OnInit {
     this.productService.getProducts().subscribe(
       (data: any) => {
         console.log("Respuesta de productos:", data);
-        this.processProductResponse(data);
+        this.processProductResponse(data);  // Aquí estás procesando la respuesta
       },
       (error: any) => {
         console.log("Error en productos:", error);
       }
     );
   }
+  
 
   processProductResponse(resp: any) {
     if (resp.metadata[0].code === "00") {
@@ -91,10 +94,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  edit(id: number, name: string, price: number, account: number, code: string, ubication: string, category: any) {
+  edit(id: number, name: string, price: number, account: number, code: string, ubication: string, retail: number, wholesaler: number, category: any) {
     const dialogRef = this.dialog.open(NewProductComponent, {
       width: '450px',
-      data: { id, name, price, account, code, ubication, category }
+      data: { id, name, price, account, code, ubication, retail, wholesaler, category }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -159,7 +162,9 @@ export interface ProductElement {
   price: number;
   account: number;
   code: string;
-  ubication: string;
   category: any;
   picture: any;
+  ubication: string;
+  retail: number;
+  wholesaler: number;
 }
