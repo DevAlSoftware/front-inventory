@@ -27,7 +27,9 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'subtotal', 'ganancia', 'details'];
+  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details', 'ventaSubtotal', 'ventaGanancia', 'ventaTotal'];
+  innerColumns: string[] = ['productName', 'size', 'quantity', 'priceType', 'price', 'profitPercentage', 'subtotal', 'ganancia', 'total'];
+
   dataSource = new MatTableDataSource<any>();
   products: any[] = [];
   selectedProductId: number = 0;
@@ -92,6 +94,18 @@ export class SaleListComponent implements OnInit, AfterViewInit {
         this.snackBar.open('Error al cargar las ventas', 'OK', { duration: 2000 });
       }
     });
+  }
+
+  getSubtotalVenta(sale: any): number {
+    return sale.saleDetails.reduce((sum: number, item: any) => sum + item.subtotalSinGanancia, 0);
+  }
+  
+  getGananciaVenta(sale: any): number {
+    return sale.saleDetails.reduce((sum: number, item: any) => sum + item.ganancia, 0);
+  }
+  
+  getTotalVenta(sale: any): number {
+    return sale.saleDetails.reduce((sum: number, item: any) => sum + item.total, 0);
   }
  
 
