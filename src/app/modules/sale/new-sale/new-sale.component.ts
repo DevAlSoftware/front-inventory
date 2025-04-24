@@ -43,25 +43,22 @@ export class NewSaleComponent  {
 
   customers: any[] = [];
   products: any[] = [];
-  sizes: string[] = []; // Las tallas disponibles
-  
+  sizes: string[] = [];
   selectedCustomer: number | null = null;
   saleDate = new Date();
   saleDetails: SaleDetail[] = [];
   availableQuantity: number = 0;
-  availableSizes: any[] = [];  // Esta es la propiedad que necesitamos
+  availableSizes: any[] = [];
   selectedPriceType: 'RETAIL' | 'WHOLESALER' = 'RETAIL';
   selectedProfitPercentage: number = 0;  
   manualDiscount: number = 0;
-  
+
   selectedProductId: number | null = null;
   selectedProduct: any = null;
-  selectedSize: string = 'S';  // Tamaño por defecto
+  selectedSize: string = 'S'; 
   selectedQuantity: number = 1;
+  currentPrice: number = 0; 
 
-  currentPrice: number = 0; // este guarda el precio calculado según tipo
-  
-  // Variables para el cálculo de la venta
   subtotalSinGanancia: number = 0;
   ganancia: number = 0;
   gananciaTotal: number = 0;
@@ -102,22 +99,17 @@ export class NewSaleComponent  {
 
   onProductSelected(productId: number) {
     this.selectedProduct = this.products.find(p => p.id === productId) || null;
-  
     if (this.selectedProduct) {
-      // Asignar tipo de precio por defecto (por ejemplo, "RETAIL")
-      this.selectedPriceType = 'RETAIL';  // O 'WHOLESALER', dependiendo de lo que necesites
-      this.updatePrice();  // Actualizar el precio inmediatamente
-  
-      // Llamar al backend para obtener las tallas de este producto
+      this.selectedPriceType = 'RETAIL'; 
+      this.updatePrice();
       this.saleService.getSizesByProduct(productId).subscribe({
         next: (res: any) => {
           const sizes = res.productSizes.productSizes;
           this.selectedProduct.sizes = sizes;
           this.availableSizes = sizes;
-          this.selectedSize = 'S';  // Talla por defecto
+          this.selectedSize = 'S'; 
           const sizeInfo = sizes.find((s: ProductSize) => s.size === this.selectedSize);
           this.availableQuantity = sizeInfo?.account || 0;
-          this.selectedQuantity = 1;
         },
         error: () => {
           this.snackBar.open('Error al cargar tallas del producto', 'OK', { duration: 2000 });
@@ -146,29 +138,37 @@ export class NewSaleComponent  {
   
 
   processSale() {
-    if (this.selectedProduct && this.selectedSize) {
-      const sizeInfo = this.selectedProduct.sizes.find((size: ProductSize) => size.size === this.selectedSize);
-  
-      if (sizeInfo && sizeInfo.account >= this.selectedQuantity) {
-        // Si hay suficiente stock, proceder con la venta
-        this.saleService.recordSale(this.selectedProduct, this.selectedSize, this.selectedQuantity).subscribe({
-          next: () => {
-            // Reducir el stock de la talla seleccionada en el frontend
-            sizeInfo.account -= this.selectedQuantity;
-  
-            // Puedes también enviar la actualización al backend para reflejar el cambio en el stock
-            this.snackBar.open('Venta realizada correctamente', 'OK', { duration: 2000 });
-          },
-          error: () => {
-            this.snackBar.open('Error al procesar la venta', 'OK', { duration: 2000 });
-          }
-        });
-      } else {
-        this.snackBar.open('No hay suficiente stock de esta talla', 'OK', { duration: 2000 });
-      }
+    if (!this.selectedCustomer) {
+      this.snackBar.open('Debes seleccionar un cliente para registrar la venta.', 'OK', { duration: 3000 });
+      return;
     }
+    if (this.saleDetails.length === 0) {
+      this.snackBar.open('Debes agregar al menos un producto a la venta.', 'OK', { duration: 3000 });
+      return;
+    }
+
+    const salePayload = {
+      customerId: this.selectedCustomer,
+      saleDate: this.saleDate,
+      saleDetails: this.saleDetails.map(detail => ({
+        productSizeId: detail.productSize.id,
+        quantity: detail.quantity,
+        price: detail.price,
+        profitPercentage: detail.profitPercentage,
+        priceType: detail.priceType
+      }))
+    };
+
+    this.saleService.saveSale(salePayload).subscribe({
+      next: (res: any) => {
+        this.snackBar.open('Venta registrada con éxito', 'OK', { duration: 3000 });
+        this.router.navigate(['/ventas']);
+      },
+      error: (err) => {
+        this.snackBar.open('Ocurrió un error al guardar la venta', 'OK', { duration: 3000 });
+      }
+    });
   }
-  
 
   onSizeSelected(size: string) {
     this.selectedSize = size;
@@ -195,53 +195,38 @@ export class NewSaleComponent  {
       alert('Selecciona un producto y una talla.');
       return;
     }
-  
+
     this.updatePrice();
-  
     const sizeInfo = this.selectedProduct.sizes?.find((s: ProductSize) => s.size === this.selectedSize);
     if (!sizeInfo) {
       alert('No se encontró la talla seleccionada para este producto.');
       return;
     }
-  
+
     const availableQuantity = sizeInfo.account || 0;
-  
     if (this.selectedQuantity > availableQuantity) {
       alert(`No puedes vender más de ${availableQuantity} unidades disponibles.`);
       return;
     }
-  
-    const subtotalItem = sizeInfo.product.price * this.selectedQuantity; // ✅ Corregido
+
+    const subtotalItem = sizeInfo.product.price * this.selectedQuantity;
     const totalItem = this.currentPrice * this.selectedQuantity;
     const gananciaItem = totalItem - subtotalItem;
-  
+
     const item: SaleDetail = {
       productSize: sizeInfo,
       quantity: this.selectedQuantity,
       price: this.currentPrice,
       profitPercentage: this.selectedProfitPercentage || 0,
-      priceType: this.selectedPriceType, // Asegúrate de que sea 'RETAIL' | 'WHOLESALER'
+      priceType: this.selectedPriceType,
       total: totalItem,
       ganancia: gananciaItem
     };
-  
+
     this.saleDetails.push(item);
     this.dataSource.data = [...this.saleDetails];
-  
-    this.subtotalSinGanancia = this.saleDetails.reduce((sum, i) => {
-      return sum + (i.price * i.quantity); //  Corregido
-    }, 0);
-  
-    this.totalVenta = this.saleDetails.reduce((sum, i) => sum + i.total, 0);
-    this.gananciaTotal = this.totalVenta - this.subtotalSinGanancia;
-  
-    //  Asegúrate de que estos tipos acepten null si los vas a resetear
-    this.selectedProduct = null as any; // o tipa como `Product | null`
-    this.selectedSize = null as any;    // o tipa como `string | null`
-    this.selectedQuantity = 1;
-    this.selectedProfitPercentage = 0;
-    this.currentPrice = 0;
-    this.selectedPriceType = 'RETAIL'; //  en mayúscula
+
+    this.updateResumenVenta();
   }
   
   updateTotal(item: SaleDetail) {
@@ -262,8 +247,7 @@ export class NewSaleComponent  {
     return this.saleDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 
-
-  getGanancia(): number {
+  getGanancia() {
     return this.saleDetails.reduce((sum, item) => {
       const subtotalConGanancia = item.price * (1 + (item.profitPercentage / 100)) * item.quantity;
       const subtotalSinGanancia = item.price * item.quantity;
@@ -273,19 +257,12 @@ export class NewSaleComponent  {
 
   /// Función para actualizar el resumen con el descuento manual
   updateResumenVenta() {
-    // Convertir manualDiscount a número si es necesario
-    this.manualDiscount = parseFloat(this.manualDiscount.toString()) || 0;
-
-    // Calcular el subtotal sin ganancia
     this.subtotalSinGanancia = this.saleDetails.reduce((sum, item) => {
-      return sum + item.price * item.quantity;
+      const precioInventario = item.productSize.product.price;
+      return sum + (precioInventario * item.quantity);
     }, 0);
-
-    // Ganancia es el descuento manual ingresado
-    this.ganancia = this.manualDiscount;
-
-    // Total venta es el subtotal menos el descuento
-    this.totalVenta = this.subtotalSinGanancia - this.ganancia;
+    this.totalVenta = this.saleDetails.reduce((sum, item) => sum + item.total, 0);
+    this.gananciaTotal = this.getGanancia();
   }
 
   // Guardar la venta
