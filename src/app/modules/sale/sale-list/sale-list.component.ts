@@ -9,6 +9,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../shared/services/product.service';
+import { Product, Sale } from '../sale-form/sale-form.component';
+import { ProductSize } from '../new-sale/new-sale.component';
+
 
 @Component({
   selector: 'app-sale-list',
@@ -27,8 +30,8 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details', 'ventaSubtotal', 'ventaGanancia', 'ventaTotal'];
-  innerColumns: string[] = ['productName', 'size', 'quantity', 'priceType', 'price', 'profitPercentage', 'subtotal', 'ganancia', 'total'];
+  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details', 'ventaSubtotal', 'ventaGanancia', 'ventaTotal', 'total'];
+  innerColumns: string[] = ['productName','size','quantity','priceType','price', 'descuento', 'subtotal'];
 
   dataSource = new MatTableDataSource<any>();
   products: any[] = [];
@@ -52,6 +55,16 @@ export class SaleListComponent implements OnInit, AfterViewInit {
     this.getProducts(); 
   }
 
+  getGananciaVenta(sale: Sale): number {
+    return sale.saleDetails.reduce((total, detail) => {
+      const precioCompra = detail.price;
+      const aumento = detail.profitPercentage || 0;
+      const precioVenta = precioCompra * (1 + aumento / 100);
+      const gananciaUnidad = precioVenta - precioCompra;
+      return total + gananciaUnidad * detail.quantity;
+    }, 0);
+  }
+
   getSales() {
     this.saleService.getSales().subscribe({
       next: (response: any) => {
@@ -71,6 +84,10 @@ export class SaleListComponent implements OnInit, AfterViewInit {
               const subtotalDetalle = precio * cantidad;
               const totalDetalle = subtotalDetalle * (1 + aumento / 100);
   
+              detalle.subtotalSinGanancia = subtotalDetalle;
+              detalle.total = totalDetalle;
+              detalle.descuento = 0; // Si aún no tenés descuento calculado
+
               subtotal += subtotalDetalle;
               total += totalDetalle;
             });
@@ -98,10 +115,6 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   getSubtotalVenta(sale: any): number {
     return sale.saleDetails.reduce((sum: number, item: any) => sum + item.subtotalSinGanancia, 0);
-  }
-  
-  getGananciaVenta(sale: any): number {
-    return sale.saleDetails.reduce((sum: number, item: any) => sum + item.ganancia, 0);
   }
   
   getTotalVenta(sale: any): number {
@@ -149,6 +162,9 @@ export class SaleListComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.sales.filter(sale =>
       sale.saleDetails.some((detail: any) => detail.product.id === this.selectedProductId)
     );
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 
 }

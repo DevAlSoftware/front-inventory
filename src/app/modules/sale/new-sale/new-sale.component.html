@@ -59,6 +59,9 @@
   </mat-select>
 </mat-form-field>
 
+<!-- Precio base (inventario) -->
+<p><strong>Precio de inventario:</strong> {{ selectedProduct?.price | moneda }}</p>
+
 <!-- Precio actual -->
 <p><strong>Precio actual:</strong> {{ currentPrice | moneda }}</p>
 
@@ -135,6 +138,7 @@
 <!-- Resumen -->
 <div class="resumen">
   <p><strong>Subtotal sin ganancia:</strong> {{ subtotalSinGanancia | moneda }}</p>
+  <p><strong>Ganancia:</strong> {{ gananciaTotal | moneda }}</p>
   <p><strong>Descuento:</strong> 
     <input [(ngModel)]="manualDiscount" (ngModelChange)="updateResumenVenta()" type="text" placeholder="Descuento" />
   </p>

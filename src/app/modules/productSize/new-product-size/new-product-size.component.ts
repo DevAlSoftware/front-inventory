@@ -37,6 +37,8 @@ export class NewProductSizeComponent implements OnInit {
   public productSizeForm!: FormGroup;
   estadoFormulario: string = '';
   products: Product[] = []; // Lista de productos
+  productss = [];
+  subtotal: number = 0;
 
   ngOnInit(): void {
     this.getProducts(); // Obtener los productos
@@ -85,6 +87,18 @@ export class NewProductSizeComponent implements OnInit {
 }
   onCancel() {
     this.dialogRef.close(3);
+  }
+
+  calculateSubtotal() {
+    const productId = this.productSizeForm.get('product')?.value;
+    const quantity = this.productSizeForm.get('account')?.value;
+    const selectedProduct = this.products.find(product => product.id === productId);
+    
+    if (selectedProduct && quantity) {
+      this.subtotal = selectedProduct.price * quantity;
+    } else {
+      this.subtotal = 0;
+    }
   }
 
   getProducts() {

@@ -9,16 +9,21 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput type="number" placeholder="Cantidad" formControlName="account" required />
+                <input matInput type="number" placeholder="Cantidad" formControlName="account" required (ngModelChange)="calculateSubtotal()" />
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Producto</mat-label>
-                <mat-select formControlName="product">
+                <mat-select formControlName="product" (selectionChange)="calculateSubtotal()">
                     <mat-option *ngFor="let pro of products" [value]="pro.id">
                         {{ pro.name }}
                     </mat-option>
                 </mat-select>
+            </mat-form-field>
+
+            <!-- Mostrar subtotal -->
+            <mat-form-field>
+                <input matInput [value]="subtotal" readonly placeholder="Subtotal" />
             </mat-form-field>
 
         </div>

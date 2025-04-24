@@ -64,6 +64,7 @@ export class NewSaleComponent  {
   // Variables para el cálculo de la venta
   subtotalSinGanancia: number = 0;
   ganancia: number = 0;
+  gananciaTotal: number = 0;
   totalVenta: number = 0;
 
   dataSource = new MatTableDataSource<any>(this.saleDetails);
@@ -190,36 +191,57 @@ export class NewSaleComponent  {
 
   // Agregar el producto a la venta
   addProductToSale() {
-    if (!this.selectedProduct || !this.selectedSize) return;
+    if (!this.selectedProduct || !this.selectedSize) {
+      alert('Selecciona un producto y una talla.');
+      return;
+    }
   
     this.updatePrice();
   
     const sizeInfo = this.selectedProduct.sizes?.find((s: ProductSize) => s.size === this.selectedSize);
-    const availableQuantity = sizeInfo?.account || 0;
+    if (!sizeInfo) {
+      alert('No se encontró la talla seleccionada para este producto.');
+      return;
+    }
+  
+    const availableQuantity = sizeInfo.account || 0;
   
     if (this.selectedQuantity > availableQuantity) {
       alert(`No puedes vender más de ${availableQuantity} unidades disponibles.`);
       return;
     }
   
+    const subtotalItem = sizeInfo.product.price * this.selectedQuantity; // ✅ Corregido
+    const totalItem = this.currentPrice * this.selectedQuantity;
+    const gananciaItem = totalItem - subtotalItem;
+  
     const item: SaleDetail = {
-      productSize: sizeInfo!,
+      productSize: sizeInfo,
       quantity: this.selectedQuantity,
       price: this.currentPrice,
       profitPercentage: this.selectedProfitPercentage || 0,
-      total: 0,
-      priceType: this.selectedPriceType
+      priceType: this.selectedPriceType, // Asegúrate de que sea 'RETAIL' | 'WHOLESALER'
+      total: totalItem,
+      ganancia: gananciaItem
     };
   
-    // Calcular el total del ítem y actualizar el resumen de la venta
-    this.updateTotal(item);
-  
-    // Agregar el producto a la lista de detalles de la venta
     this.saleDetails.push(item);
     this.dataSource.data = [...this.saleDetails];
   
-    // Actualizamos el resumen después de agregar el producto
-    this.updateResumenVenta();
+    this.subtotalSinGanancia = this.saleDetails.reduce((sum, i) => {
+      return sum + (i.price * i.quantity); //  Corregido
+    }, 0);
+  
+    this.totalVenta = this.saleDetails.reduce((sum, i) => sum + i.total, 0);
+    this.gananciaTotal = this.totalVenta - this.subtotalSinGanancia;
+  
+    //  Asegúrate de que estos tipos acepten null si los vas a resetear
+    this.selectedProduct = null as any; // o tipa como `Product | null`
+    this.selectedSize = null as any;    // o tipa como `string | null`
+    this.selectedQuantity = 1;
+    this.selectedProfitPercentage = 0;
+    this.currentPrice = 0;
+    this.selectedPriceType = 'RETAIL'; //  en mayúscula
   }
   
   updateTotal(item: SaleDetail) {
