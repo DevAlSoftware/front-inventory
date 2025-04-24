@@ -48,7 +48,6 @@ export class NewSaleComponent  {
   selectedCustomer: number | null = null;
   saleDate = new Date();
   saleDetails: SaleDetail[] = [];
-  detalles: SaleDetail[] = []; // inicializás esto
   availableQuantity: number = 0;
   availableSizes: any[] = [];  // Esta es la propiedad que necesitamos
   selectedPriceType: 'RETAIL' | 'WHOLESALER' = 'RETAIL';
@@ -92,7 +91,7 @@ export class NewSaleComponent  {
 
   getProducts() {
     this.saleService.getProducts().subscribe((res: any) => {
-      console.log('Respuesta de productos:', res);  // Esta línea es crucial para entender la estructura.
+      console.log('Respuesta de productos:', res);  
       if (res.product && res.product.products) {
         this.products = res.product.products;
       }
@@ -188,10 +187,10 @@ export class NewSaleComponent  {
     }
   }
 
+  // Agregar el producto a la venta
   addProductToSale() {
     if (!this.selectedProduct || !this.selectedSize) return;
   
-    // Asegúrate que el precio esté actualizado
     this.updatePrice();
   
     const sizeInfo = this.selectedProduct.sizes?.find((s: ProductSize) => s.size === this.selectedSize);
@@ -205,22 +204,27 @@ export class NewSaleComponent  {
     const item: SaleDetail = {
       productSize: sizeInfo!,
       quantity: this.selectedQuantity,
-      price: this.currentPrice, // Precio ya actualizado aquí
+      price: this.currentPrice,
       profitPercentage: this.selectedProfitPercentage || 0,
       total: 0,
       priceType: this.selectedPriceType
     };
   
+    // Calcular el total del ítem y actualizar el resumen de la venta
     this.updateTotal(item);
   
+    // Agregar el producto a la lista de detalles de la venta
     this.saleDetails.push(item);
     this.dataSource.data = [...this.saleDetails];
+  
+    // Actualizamos el resumen después de agregar el producto
+    this.updateResumenVenta();
   }
   
-  updateTotal(item: any) {
+  updateTotal(item: SaleDetail) {
     item.total = item.price * (1 + item.profitPercentage / 100) * item.quantity;
+    // Actualizar el resumen de la venta después de cada actualización del total
     this.updateResumenVenta();
-    this.dataSource.data = [...this.saleDetails];
   }
 
   calculateTotal(price: number, quantity: number, profit: number): number {
@@ -235,6 +239,7 @@ export class NewSaleComponent  {
     return this.saleDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 
+
   getGanancia(): number {
     return this.saleDetails.reduce((sum, item) => {
       const subtotalConGanancia = item.price * (1 + (item.profitPercentage / 100)) * item.quantity;
@@ -244,19 +249,23 @@ export class NewSaleComponent  {
   }
 
   updateResumenVenta() {
+    // Subtotal sin ganancia
     this.subtotalSinGanancia = this.saleDetails.reduce((sum, item) => {
       return sum + item.price * item.quantity;
     }, 0);
   
+    // Ganancia
     this.ganancia = this.saleDetails.reduce((sum, item) => {
-      const totalSinGanancia = item.price * item.quantity;
-      const totalConGanancia = item.total;
-      return sum + (totalConGanancia - totalSinGanancia);
+      const subtotalConGanancia = item.price * (1 + (item.profitPercentage / 100)) * item.quantity;
+      const subtotalSinGanancia = item.price * item.quantity;
+      return sum + (subtotalConGanancia - subtotalSinGanancia);
     }, 0);
   
+    // Total de la venta
     this.totalVenta = this.subtotalSinGanancia + this.ganancia;
   }
 
+  // Guardar la venta
   saveSale() {
     if (!this.selectedCustomer) {
       this.snackBar.open('El cliente es obligatorio para crear una venta', 'OK', { duration: 3000 });
@@ -271,16 +280,14 @@ export class NewSaleComponent  {
       saleDetails: this.saleDetails.map(item => ({
         productSize: { id: item.productSize.id },
         quantity: item.quantity,
-        price: item.productSize.price, // Aquí va el coste base de la prenda
+        price: item.productSize.price, 
         profitPercentage: item.profitPercentage,
         total: item.total,
-        priceType: item.selectedPrice // RETAIL o WHOLESALER
+        priceType: item.selectedPrice
       }))
     };
-    
 
-    // Ahora aseguramos que al final el precio correcto (retail o wholesaler) se envíe con base en la selección
-    console.log('Sale payload:', salePayload); // Imprime el payload para verificar
+    console.log('Sale payload:', salePayload);
 
     this.saleService.saveSale(salePayload).subscribe({
       next: (res: any) => {
@@ -298,7 +305,7 @@ export class NewSaleComponent  {
         this.snackBar.open('Error al guardar venta', 'OK', { duration: 2000 });
       }
     });
-}
+  }
 
   validateStock() {
     if (this.selectedQuantity > this.availableQuantity) {
