@@ -132,11 +132,12 @@
 <!-- Resumen -->
 <div class="resumen">
   <p><strong>Subtotal sin ganancia:</strong> {{ subtotalSinGanancia | moneda }}</p>
-  <p><strong>Ganancia:</strong> {{ gananciaTotal | moneda }}</p>
-  <p><strong>Descuento:</strong> 
-    <input [(ngModel)]="manualDiscount" (ngModelChange)="updateResumenVenta()" type="text" placeholder="Descuento" />
-  </p>
+  <mat-form-field appearance="fill">
+    <mat-label>Descuento</mat-label>
+    <input matInput type="number" [(ngModel)]="manualDiscount" (ngModelChange)="updateResumenVenta()">
+  </mat-form-field>
   <p><strong>Total venta:</strong> {{ totalVenta | moneda }}</p>
+  <p><strong>Ganancia:</strong> {{ gananciaTotal | moneda }}</p>
 </div>
 
 <!-- Botones -->

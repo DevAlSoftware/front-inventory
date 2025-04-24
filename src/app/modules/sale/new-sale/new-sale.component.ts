@@ -257,12 +257,20 @@ export class NewSaleComponent  {
 
   /// Función para actualizar el resumen con el descuento manual
   updateResumenVenta() {
+    // Subtotal sin ganancia (precio inventario * cantidad)
     this.subtotalSinGanancia = this.saleDetails.reduce((sum, item) => {
       const precioInventario = item.productSize.product.price;
       return sum + (precioInventario * item.quantity);
     }, 0);
-    this.totalVenta = this.saleDetails.reduce((sum, item) => sum + item.total, 0);
-    this.gananciaTotal = this.getGanancia();
+  
+    // Total sin descuento aplicado aún
+    const totalAntesDescuento = this.saleDetails.reduce((sum, item) => sum + item.total, 0);
+  
+    // Total de la venta con descuento restado (si hay)
+    this.totalVenta = totalAntesDescuento - this.manualDiscount;
+  
+    // Ganancia = total de venta (con descuento aplicado) - subtotal sin ganancia
+    this.gananciaTotal = this.totalVenta - this.subtotalSinGanancia;
   }
 
   // Guardar la venta
