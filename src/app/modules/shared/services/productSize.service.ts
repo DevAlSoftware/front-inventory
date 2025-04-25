@@ -63,4 +63,12 @@ export class ProductSizeService {
     return this.http.get(endpoint);
   }
 
+  /**
+   * Buscar producto por nombre
+   */
+  getProductSizesByProductName(productName: string) {
+    const endpoint = `${base_url}/product-sizes/product-name/${productName}`;
+    return this.http.get(endpoint);
+  }
+
 }

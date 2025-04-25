@@ -30,8 +30,8 @@ export class SaleListComponent implements OnInit, AfterViewInit {
 
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details', 'ventaSubtotal', 'ventaGanancia', 'ventaTotal', 'total'];
-  innerColumns: string[] = ['productName','size','quantity','priceType','price', 'descuento', 'subtotal'];
+  displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details'];
+  innerColumns: string[] = ['productName','size','quantity','priceType','price','subtotal'];
 
   dataSource = new MatTableDataSource<any>();
   products: any[] = [];
@@ -55,16 +55,6 @@ export class SaleListComponent implements OnInit, AfterViewInit {
     this.getProducts(); 
   }
 
-  getGananciaVenta(sale: Sale): number {
-    return sale.saleDetails.reduce((total, detail) => {
-      const precioCompra = detail.price;
-      const aumento = detail.profitPercentage || 0;
-      const precioVenta = precioCompra * (1 + aumento / 100);
-      const gananciaUnidad = precioVenta - precioCompra;
-      return total + gananciaUnidad * detail.quantity;
-    }, 0);
-  }
-
   getSales() {
     this.saleService.getSales().subscribe({
       next: (response: any) => {
@@ -79,10 +69,10 @@ export class SaleListComponent implements OnInit, AfterViewInit {
             venta.saleDetails.forEach((detalle: any) => {
               const precio = detalle.product.price || 0;
               const cantidad = detalle.quantity || 0;
-              const aumento = detalle.profitPercentage || 0;
+              const ganancia = detalle.ganancia || 0;
   
               const subtotalDetalle = precio * cantidad;
-              const totalDetalle = subtotalDetalle * (1 + aumento / 100);
+              const totalDetalle = subtotalDetalle + ganancia;
   
               detalle.subtotalSinGanancia = subtotalDetalle;
               detalle.total = totalDetalle;

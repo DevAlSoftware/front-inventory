@@ -136,18 +136,21 @@ export class ProductSizeComponent implements OnInit {
     });
   }
 
-  buscar(productIdInput: string) {
-    const productId = Number(productIdInput);
-    if (!productId || isNaN(productId)) {
-      this.getProductSizes(); // Mostrar todos si no se digita un ID válido
+  buscar(productNameInput: string) {
+    if (!productNameInput) {
+      this.getProductSizes(); // Si no se ingresa un nombre, se cargan todas las tallas
       return;
     }
   
-    this.productSizeService.getProductSizesByProductId(productId).subscribe((resp: any) => {
-      this.processProductSizeResponse(resp);
-    }, (error: any) => {
-      console.log("Error al buscar tallas por producto:", error);
-      this.openSnackBar("Producto no encontrado o sin tallas", "Error");
-    });
+    this.productSizeService.getProductSizesByProductName(productNameInput).subscribe(
+      (resp: any) => {
+        this.processProductSizeResponse(resp); // Muestra las tallas asociadas al producto por nombre
+      },
+      (error: any) => {
+        console.error("Error al buscar tallas por nombre del producto:", error);
+        this.openSnackBar("Producto no encontrado o sin tallas", "Error");
+      }
+    );
   }
+  
 }
