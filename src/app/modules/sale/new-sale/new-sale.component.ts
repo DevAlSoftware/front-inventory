@@ -291,7 +291,7 @@ export class NewSaleComponent  {
         price: item.productSize.price, 
         profitPercentage: item.profitPercentage,
         total: item.total,
-        priceType: item.selectedPrice
+        priceType: item.priceType
       }))
     };
 

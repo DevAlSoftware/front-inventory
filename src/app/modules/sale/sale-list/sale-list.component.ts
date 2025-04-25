@@ -165,6 +165,7 @@ export interface SaleDetailElement {
   quantity: number;
   price: number;
   profitPercentage: number;
+  priceType: string;
 }
 
 export interface SaleElement {
