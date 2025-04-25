@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   private snackBar = inject(MatSnackBar);
   public dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['id', 'name', 'description', 'code', 'actions'];
+  displayedColumns: string[] = ['id', 'code', 'name', 'description',  'actions'];
   dataSource = new MatTableDataSource<CategoryElement>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -79,10 +79,10 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  edit(id: number, name: string, description: string, code: string) {
+  edit(id: number, code: string, name: string, description: string, ) {
     const dialogRef = this.dialog.open(NewCategoryComponent, {
       width: '450px',
-      data: { id, name, description }
+      data: { id, code, name, description }
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result === 1) {
@@ -154,16 +154,17 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 }
 
 export interface CategoryElement {
-  description: string;
   id: number;
-  name: string;
   code: string;
+  name: string;
+  description: string;
 }
 
 
 
 export interface CategoryElement {
-  description: string;
   id: number;
+  code: string;
   name: string;
+  description: string;
 }
