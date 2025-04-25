@@ -103,11 +103,11 @@
     <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
   </ng-container>
 
-  <!-- % Ganancia -->
+  <!-- % Ganancia 
   <ng-container matColumnDef="profitPercentage">
     <th mat-header-cell *matHeaderCellDef> % Ganancia </th>
     <td mat-cell *matCellDef="let element"> {{element.profitPercentage}}% </td>
-  </ng-container> 
+  </ng-container>  -->
 
   <!-- Total -->
   <ng-container matColumnDef="total">
@@ -125,8 +125,8 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['product', 'size', 'priceType', 'price', 'quantity', 'profitPercentage', 'total', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['product', 'size', 'priceType', 'price', 'quantity', 'profitPercentage', 'total', 'actions']"></tr>
+  <tr mat-header-row *matHeaderRowDef="['product', 'size', 'priceType', 'price', 'quantity', 'total', 'actions']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['product', 'size', 'priceType', 'price', 'quantity', 'total', 'actions']"></tr>
 </table>
 
 <!-- Resumen -->
