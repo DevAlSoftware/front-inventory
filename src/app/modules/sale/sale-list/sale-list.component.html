@@ -12,10 +12,15 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Botón de exportación -->
-  <div class="text-end my-3">
-    <button mat-raised-button color="primary" (click)="exportExcel()">Exportar a Excel</button>
-  </div>
+  <mat-card-header class="button-container">
+    <div class="right">
+      <ul>
+        <li>
+          <button mat-raised-button color="primary" (click)="exportExcel()">Exportar a Excel</button>
+        </li>
+      </ul>
+    </div>
+</mat-card-header>
 
   <!-- Tabla de ventas -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full-width" multiTemplateDataRows>

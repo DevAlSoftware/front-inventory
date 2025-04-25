@@ -71,4 +71,14 @@ export class ProductSizeService {
     return this.http.get(endpoint);
   }
 
+  /**
+   * export excel productSize
+   */
+  exportProductSize(){
+    const endpoint = `${base_url}/product-sizes/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob'
+    });
+  }
+
 }

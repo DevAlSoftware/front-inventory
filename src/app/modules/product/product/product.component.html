@@ -45,7 +45,7 @@
 
             <!-- price column -->
             <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef> Precio </th>
+                <th mat-header-cell *matHeaderCellDef> Costo </th>
                 <td mat-cell *matCellDef="let element"> {{ element.price | moneda }}</td>
             </ng-container>
 
@@ -57,13 +57,13 @@
 
             <!-- retail column -->
             <ng-container matColumnDef="retail">
-                <th mat-header-cell *matHeaderCellDef> Minorista </th>
+                <th mat-header-cell *matHeaderCellDef> Precio Minorista </th>
                 <td mat-cell *matCellDef="let element"> {{ element.retail | moneda }}</td>
             </ng-container>
 
             <!-- wholesaler column -->
             <ng-container matColumnDef="wholesaler">
-                <th mat-header-cell *matHeaderCellDef> Mayorista </th>
+                <th mat-header-cell *matHeaderCellDef> Precio Mayorista </th>
                 <td mat-cell *matCellDef="let element"> {{ element.wholesaler | moneda }}</td>
             </ng-container>
 
@@ -91,6 +91,7 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let element;">
+
                     <button mat-icon-button color="accent" 
                         (click)="edit(element.id, element.code, element.name, element.price, element.account, element.ubication, element.retail, element.wholesaler, element.category)">
                         <mat-icon role="img" aria-hidden="false" aria-label="Editar producto">edit</mat-icon>

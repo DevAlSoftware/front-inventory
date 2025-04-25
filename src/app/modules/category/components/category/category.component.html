@@ -62,11 +62,11 @@
               <td mat-cell *matCellDef="let element; let i=index;">
 
                   <button mat-icon-button color="accent" (click)="edit(element.id, element.code, element.name, element.description)">
-                      <mat-icon aria-hidden="false" aria-label="Edit">edit</mat-icon>
+                    <mat-icon role="img" aria-hidden="false" aria-label="Editar categoría">edit</mat-icon>
                   </button>
                   
-                  <button mat-icon-button color="accent" (click)="delete(element.id)">
-                      <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+                  <button mat-icon-button color="warn" (click)="delete(element.id)">
+                    <mat-icon role="img" aria-hidden="false" aria-label="Eliminar categoría">delete</mat-icon>
                   </button>
                   
               </td>
