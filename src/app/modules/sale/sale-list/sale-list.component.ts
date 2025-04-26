@@ -31,7 +31,8 @@ export class SaleListComponent implements OnInit, AfterViewInit {
   public dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['id', 'customer', 'saleDate', 'details'];
-  innerColumns: string[] = ['productName','size','quantity','priceType','price','subtotal'];
+  innerColumns: string[] = ['productName', 'size', 'quantity', 'priceType', 'price', 'subtotal', 'total'];
+
 
   dataSource = new MatTableDataSource<any>();
   products: any[] = [];
@@ -55,43 +56,42 @@ export class SaleListComponent implements OnInit, AfterViewInit {
     this.getProducts(); 
   }
 
+  // Actualiza tu método que mapea los detalles de la venta
   getSales() {
     this.saleService.getSales().subscribe({
       next: (response: any) => {
         if (response?.saleResponse?.sale) {
           const ventas = response.saleResponse.sale;
   
-          // Procesar cada venta para calcular subtotal y ganancia
           const ventasConTotales = ventas.map((venta: any) => {
             let subtotal = 0;
             let total = 0;
   
             venta.saleDetails.forEach((detalle: any) => {
-              const precio = detalle.product.price || 0;
+              const precio = detalle.product?.price || 0;
               const cantidad = detalle.quantity || 0;
-              const ganancia = detalle.ganancia || 0;
+              const descuento = detalle.manualDiscount || 0;
   
               const subtotalDetalle = precio * cantidad;
-              const totalDetalle = subtotalDetalle + ganancia;
+              const totalDetalle = subtotalDetalle - descuento;
   
               detalle.subtotalSinGanancia = subtotalDetalle;
               detalle.total = totalDetalle;
-              detalle.descuento = 0; // Si aún no tenés descuento calculado
-
+              detalle.descuento = descuento;
+  
               subtotal += subtotalDetalle;
               total += totalDetalle;
             });
   
-            // Agregar los campos calculados
             return {
               ...venta,
               subtotalSinGanancia: subtotal,
-              ganancia: total - subtotal,
+              totalConDescuento: total
             };
           });
   
           this.dataSource.data = ventasConTotales;
-          this.sales = ventasConTotales; // <- AQUÍ estaba la falta
+          this.sales = ventasConTotales;
         } else {
           this.snackBar.open('No se encontraron ventas', 'OK', { duration: 2000 });
         }
@@ -102,7 +102,7 @@ export class SaleListComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  
   getSubtotalVenta(sale: any): number {
     return sale.saleDetails.reduce((sum: number, item: any) => sum + item.subtotalSinGanancia, 0);
   }

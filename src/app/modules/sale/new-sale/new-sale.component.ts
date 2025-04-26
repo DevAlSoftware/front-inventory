@@ -150,6 +150,7 @@ export class NewSaleComponent  {
     const salePayload = {
       customerId: this.selectedCustomer,
       saleDate: this.saleDate,
+      manualDiscount: this.manualDiscount,
       saleDetails: this.saleDetails.map(detail => ({
         productSizeId: detail.productSize.id,
         quantity: detail.quantity,
@@ -285,6 +286,7 @@ export class NewSaleComponent  {
       customer: { id: this.selectedCustomer },
       saleDate: this.saleDate,
       total: this.getTotalSale(),
+      manualDiscount: this.manualDiscount,
       saleDetails: this.saleDetails.map(item => ({
         productSize: { id: item.productSize.id },
         quantity: item.quantity,
