@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroments/enviroment';
 
-const base_url = "http://localhost:8080/api/v1";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaleDetailService {
+
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +17,7 @@ export class SaleDetailService {
    * Obtener todos los detalles de ventas
    */
   getSaleDetails() {
-    const endpoint = `${base_url}/sales-detail`;
+    const endpoint = `${this.baseUrl}/sales-detail`;
     return this.http.get(endpoint);
   }
 
@@ -23,7 +25,7 @@ export class SaleDetailService {
    * Obtener detalle de venta por ID
    */
   getSaleDetailById(id: number) {
-    const endpoint = `${base_url}/sales-detail/${id}`;
+    const endpoint = `${this.baseUrl}/sales-detail/${id}`;
     return this.http.get(endpoint);
   }
 
@@ -31,7 +33,7 @@ export class SaleDetailService {
    * Crear un nuevo detalle de venta
    */
   createSaleDetail(saleDetail: any) {
-    const endpoint = `${base_url}/sales-detail`;
+    const endpoint = `${this.baseUrl}/sales-detail`;
     return this.http.post(endpoint, saleDetail);
   }
 
@@ -39,7 +41,7 @@ export class SaleDetailService {
    * Actualizar un detalle de venta
    */
   updateSaleDetail(id: number, saleDetail: any) {
-    const endpoint = `${base_url}/sales-detail/${id}`;
+    const endpoint = `${this.baseUrl}/sales-detail/${id}`;
     return this.http.put(endpoint, saleDetail);
   }
 
@@ -47,11 +49,11 @@ export class SaleDetailService {
    * Eliminar un detalle de venta
    */
   deleteSaleDetail(id: number) {
-    const endpoint = `${base_url}/sales-detail/${id}`;
+    const endpoint = `${this.baseUrl}/sales-detail/${id}`;
     return this.http.delete(endpoint);
   }
 
   getDetailsBySaleId(saleId: number) {
-    return this.http.get(`${base_url}/sales-detail/sale/${saleId}`);
+    return this.http.get(`${this.baseUrl}/sales-detail/sale/${saleId}`);
   }
 }

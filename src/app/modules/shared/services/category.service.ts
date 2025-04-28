@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/enviroments/enviroment';
 
-const base_url = "http://localhost:8080/api/v1";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
+
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +18,7 @@ export class CategoryService {
    */
   getCategories(){
 
-    const endpoint = `${base_url}/categories`;
+    const endpoint = `${this.baseUrl}/categories`;
     return this.http.get(endpoint);
 
   }
@@ -24,7 +27,7 @@ export class CategoryService {
    * save the categories
    */
   saveCategorie(body: any) {
-    const endpoint = `${base_url}/categories`;
+    const endpoint = `${this.baseUrl}/categories`;
     return this.http.post(endpoint, body);
   }
 
@@ -32,7 +35,7 @@ export class CategoryService {
    * update categorie
    */
   updateCategorie(body: any, id: any){
-    const endpoint = `${base_url}/categories/ ${id}`;
+    const endpoint = `${this.baseUrl}/categories/ ${id}`;
     return this.http.put(endpoint, body);
   }
 
@@ -40,7 +43,7 @@ export class CategoryService {
    * update categorie
    */
   deleteCategorie(id: any){
-    const endpoint = `${base_url}/categories/ ${id}`;
+    const endpoint = `${this.baseUrl}/categories/ ${id}`;
     return this.http.delete(endpoint);
   }
 
@@ -48,7 +51,7 @@ export class CategoryService {
    * update categorie
    */
   getCategorieById(id: any){
-    const endpoint = `${base_url}/categories/ ${id}`;
+    const endpoint = `${this.baseUrl}/categories/ ${id}`;
     return this.http.get(endpoint);
   }
 
@@ -56,7 +59,7 @@ export class CategoryService {
    * search by name
    */
   getCategoryByName(name: any){
-    const endpoint = `${base_url}/categories/filter/${name}`;
+    const endpoint = `${this.baseUrl}/categories/filter/${name}`;
     return this.http.get(endpoint);
   }
 
@@ -65,7 +68,7 @@ export class CategoryService {
    * export excel categories
    */
   exportCategories(){
-    const endpoint = `${base_url}/categories/export/excel`;
+    const endpoint = `${this.baseUrl}/categories/export/excel`;
     return this.http.get(endpoint, {
       responseType: 'blob'
     });

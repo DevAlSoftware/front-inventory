@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/enviroments/enviroment';
 
-const base_url = "http://localhost:8080/api/v1";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductSizeService {
+
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -14,12 +16,12 @@ export class ProductSizeService {
    * Obtener todas las tallas
    */
   getProductSizes() {
-    const endpoint = `${base_url}/product-sizes`;
+    const endpoint = `${this.baseUrl}/product-sizes`;
     return this.http.get(endpoint);
   }
 
   getProducts() {
-    const endpoint = `${base_url}/products`;
+    const endpoint = `${this.baseUrl}/products`;
     return this.http.get(endpoint);
   }
 
@@ -27,7 +29,7 @@ export class ProductSizeService {
    * Guardar una talla para un producto
    */
   saveProductSize(body: any) {
-    const endpoint = `${base_url}/product-sizes`;
+    const endpoint = `${this.baseUrl}/product-sizes`;
     return this.http.post(endpoint, body);
   }
 
@@ -35,7 +37,7 @@ export class ProductSizeService {
    * Actualizar talla
    */
   updateProductSize(body: any, id: number) {
-    const endpoint = `${base_url}/product-sizes/${id}`;
+    const endpoint = `${this.baseUrl}/product-sizes/${id}`;
     return this.http.post(endpoint, body);
   }
 
@@ -43,7 +45,7 @@ export class ProductSizeService {
    * Eliminar una talla
    */
   deleteProductSize(id: number) {
-    const endpoint = `${base_url}/product-sizes/${id}`;
+    const endpoint = `${this.baseUrl}/product-sizes/${id}`;
     return this.http.delete(endpoint);
   }
 
@@ -51,7 +53,7 @@ export class ProductSizeService {
    * Buscar talla por ID
    */
   getProductSizeById(id: number) {
-    const endpoint = `${base_url}/product-sizes/${id}`;
+    const endpoint = `${this.baseUrl}/product-sizes/${id}`;
     return this.http.get(endpoint);
   }
 
@@ -59,7 +61,7 @@ export class ProductSizeService {
    * Buscar todas las tallas de un producto
    */
   getProductSizesByProductId(productId: number) {
-    const endpoint = `${base_url}/product-sizes/product/${productId}`;
+    const endpoint = `${this.baseUrl}/product-sizes/product/${productId}`;
     return this.http.get(endpoint);
   }
 
@@ -67,7 +69,7 @@ export class ProductSizeService {
    * Buscar producto por nombre
    */
   getProductSizesByProductName(productName: string) {
-    const endpoint = `${base_url}/product-sizes/product-name/${productName}`;
+    const endpoint = `${this.baseUrl}/product-sizes/product-name/${productName}`;
     return this.http.get(endpoint);
   }
 
@@ -75,7 +77,7 @@ export class ProductSizeService {
    * export excel productSize
    */
   exportProductSize(){
-    const endpoint = `${base_url}/product-sizes/export/excel`;
+    const endpoint = `${this.baseUrl}/product-sizes/export/excel`;
     return this.http.get(endpoint, {
       responseType: 'blob'
     });

@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/enviroments/enviroment';
 
-const base_url = "http://localhost:8080/api/v1";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaleService {
+
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -14,7 +16,7 @@ export class SaleService {
    * Obtener todas las ventas
    */
   getSales() {
-    const endpoint = `${base_url}/sales`;
+    const endpoint = `${this.baseUrl}/sales`;
     return this.http.get(endpoint);
   }
 
@@ -22,7 +24,7 @@ export class SaleService {
    * Registrar una nueva venta
    */
   saveSale(body: any) {
-    const endpoint = `${base_url}/sales`;
+    const endpoint = `${this.baseUrl}/sales`;
     return this.http.post(endpoint, body);
   }
 
@@ -30,7 +32,7 @@ export class SaleService {
    * Eliminar una venta
    */
   deleteSale(id: any) {
-    const endpoint = `${base_url}/sales/${id}`;
+    const endpoint = `${this.baseUrl}/sales/${id}`;
     return this.http.delete(endpoint);
   }
 
@@ -38,14 +40,14 @@ export class SaleService {
    * Buscar ventas por nombre de cliente
    */
   getSalesByCustomer(name: string) {
-    const endpoint = `${base_url}/sales/filter/${name}`;
+    const endpoint = `${this.baseUrl}/sales/filter/${name}`;
     return this.http.get(endpoint);
   }
   /**
    * Obtener productos disponibles (por si necesitas mostrar productos para agregar en saleDetails)
    */
   getProducts() {
-    const endpoint = `${base_url}/products`;
+    const endpoint = `${this.baseUrl}/products`;
     return this.http.get(endpoint);
   }
 
@@ -53,7 +55,7 @@ export class SaleService {
    * Obtener productos disponibles (por si necesitas mostrar productos para agregar en saleDetails)
    */
   getCustomers() {
-    const endpoint = `${base_url}/customers`;
+    const endpoint = `${this.baseUrl}/customers`;
     return this.http.get(endpoint);
   }
 
@@ -61,19 +63,19 @@ export class SaleService {
  * Exportar ventas a Excel
  */
   exportSales() {
-    const endpoint = `${base_url}/sales/export/excel`;
+    const endpoint = `${this.baseUrl}/sales/export/excel`;
     return this.http.get(endpoint, {
       responseType: 'blob'
     });
   }
 
   getSalesByProductId(productId: number) {
-    const endpoint = `${base_url}/sales/by-product-id?id=${productId}`;
+    const endpoint = `${this.baseUrl}/sales/by-product-id?id=${productId}`;
     return this.http.get(endpoint);
   }
 
   getSizesByProduct(productId: number) {
-    const endpoint = `${base_url}/product-sizes/product/${productId}`;
+    const endpoint = `${this.baseUrl}/product-sizes/product/${productId}`;
     return this.http.get(endpoint);
   }
 
@@ -87,7 +89,7 @@ export class SaleService {
       size,
       quantity
     };
-    const endpoint = `${base_url}/sales/record`;
+    const endpoint = `${this.baseUrl}/sales/record`;
     return this.http.post(endpoint, body);
   }
 }

@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/enviroments/enviroment';
 
-const base_url = "http://localhost:8080/api/v1";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
+
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +17,7 @@ export class CustomerService {
    */
   getCustomers(){
 
-    const endpoint = `${base_url}/customers`;
+    const endpoint = `${this.baseUrl}/customers`;
     return this.http.get(endpoint);
 
   }
@@ -24,7 +26,7 @@ export class CustomerService {
    * save the customers
    */
   saveCustomers(body: any) {
-    const endpoint = `${base_url}/customers`;
+    const endpoint = `${this.baseUrl}/customers`;
     return this.http.post(endpoint, body);
   }
 
@@ -32,7 +34,7 @@ export class CustomerService {
    * update customers
    */
   updateCustomers(body: any, id: any){
-    const endpoint = `${base_url}/customers/ ${id}`;
+    const endpoint = `${this.baseUrl}/customers/ ${id}`;
     return this.http.put(endpoint, body);
   }
 
@@ -40,7 +42,7 @@ export class CustomerService {
    * update customers
    */
   deleteCustomers(id: any){
-    const endpoint = `${base_url}/customers/ ${id}`;
+    const endpoint = `${this.baseUrl}/customers/ ${id}`;
     return this.http.delete(endpoint);
   }
 
@@ -48,7 +50,7 @@ export class CustomerService {
    * update customers
    */
   geCustomerById(id: any){
-    const endpoint = `${base_url}/customers/ ${id}`;
+    const endpoint = `${this.baseUrl}/customers/ ${id}`;
     return this.http.get(endpoint);
   }
 
@@ -56,7 +58,7 @@ export class CustomerService {
    * search by name
    */
   getCustomerByFullName(fullName: any){
-    const endpoint = `${base_url}/customers/filter/${fullName}`;
+    const endpoint = `${this.baseUrl}/customers/filter/${fullName}`;
     return this.http.get(endpoint);
   }
 
@@ -65,7 +67,7 @@ export class CustomerService {
    * export excel customers
    */
   exportCustomers(){
-    const endpoint = `${base_url}/customers/export/excel`;
+    const endpoint = `${this.baseUrl}/customers/export/excel`;
     return this.http.get(endpoint, {
       responseType: 'blob'
     });

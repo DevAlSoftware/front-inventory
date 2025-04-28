@@ -1,25 +1,29 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Subject } from 'rxjs';
-import baserUrl from '../../models/helper';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from 'src/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
+  baseUrl = environment.baseUrl;
+
   public loginStatusSubjec = new Subject<boolean>();
 
   constructor(private http:HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
 
+  
+
   //generamos el token
   public generateToken(loginData:any){
-    return this.http.post(`${baserUrl}/generate-token`,loginData);
+    return this.http.post(`${this.baseUrl}/generate-token`,loginData);
   }
 
   public getCurrentUser(){
-    return this.http.get(`${baserUrl}/login`);
+    return this.http.get(`${this.baseUrl}/login`);
   }
 
   //iniciamos sesión y establecemos el token en el localStorage
