@@ -1,2 +1,5 @@
-let baserUrl = 'http://localhost:8080/api/v1'
-export default baserUrl;
+import { environment } from "src/enviroments/enviroment";
+
+
+let baseUrl = environment.baseUrl;  // Toma la URL base según el entorno
+export default baseUrl;
