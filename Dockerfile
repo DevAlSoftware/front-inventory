@@ -1,21 +1,24 @@
 # Usa una imagen base con Node.js
-FROM node:18
+FROM node:18 AS build
 
 # Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia dependencias
+# Copia dependencias y construye el proyecto
 COPY package*.json ./
 RUN npm install
-
-# Copia el resto del proyecto
 COPY . .
-
-# Instala las dependencias necesarias para Angular
 RUN npm install -g @angular/cli
+RUN ng build --configuration production
 
-# Expone el puerto donde va a correr dentro del contenedor
-EXPOSE 4200
+# Fase final: Servir contenido estático
+FROM nginx:alpine
 
-# Comando para servir el frontend en modo de desarrollo
-CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
+COPY --from=build /app/dist/front-inventory /usr/share/nginx/html
+
+# Copia una configuración de nginx si quieres (opcional)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
