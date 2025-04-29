@@ -7,12 +7,19 @@ import {
   import express from 'express';
   import { dirname, resolve } from 'node:path';
   import { fileURLToPath } from 'node:url';
+import { environment } from './environments/environment';
   
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   
   const app = express();
   const angularApp = new AngularNodeAppEngine();
+
+  const isServer = typeof window === 'undefined';
+
+  const API_URL = isServer
+  ? process.env['API_URL'] || 'http://localhost:8080/api/v1'
+  : environment.baseUrl;
   
   /**
    * Example Express Rest API endpoints can be defined here.
