@@ -7,9 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:front-inventory": "node dist/front-inventory/server/server.mjs",
-    "build:ssr": "ng build && ng run front-inventory:server",
-    "dev:ssr": "ng run front-inventory:serve-ssr"
+    "serve:ssr:front-inventory": "node dist/front-inventory/server/server.mjs"
   },
   "private": true,
   "dependencies": {
