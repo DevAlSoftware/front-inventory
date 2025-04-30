@@ -14,12 +14,6 @@ import { environment } from './environments/environment';
   
   const app = express();
   const angularApp = new AngularNodeAppEngine();
-
-  const isServer = typeof window === 'undefined';
-
-  const API_URL = isServer
-  ? process.env['API_URL'] || 'http://localhost:8080/api/v1'
-  : environment.baseUrl;
   
   /**
    * Example Express Rest API endpoints can be defined here.
