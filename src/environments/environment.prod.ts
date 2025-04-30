@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: false,
     baseUrl: 'http://69.62.67.49:8080/api/v1'
   };
   

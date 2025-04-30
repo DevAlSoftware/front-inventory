@@ -1,14 +1,21 @@
-# Etapa 1: Build de SSR
-FROM node:18 AS build
+# Usa una imagen base con Node.js
+FROM node:18
+ 
+# Directorio de trabajo dentro del contenedor
 WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build:ssr
 
-# Etapa 2: Producción para Angular SSR
-FROM node:18-alpine
-WORKDIR /app
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/node_modules /app/node_modules
-EXPOSE 4000
-CMD ["node", "dist/front-inventory/server/main.server.mjs"]
+# Copia dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copia el resto del proyecto
+COPY . .
+
+# Instala las dependencias necesarias para Angular
+RUN npm install -g @angular/cli
+
+# Expone el puerto donde va a correr dentro del contenedor
+EXPOSE 4200
+
+# Comando para servir el frontend en modo de desarrollo
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
