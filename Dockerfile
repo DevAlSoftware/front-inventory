@@ -1,21 +1,21 @@
-# Usa la imagen de Node.js
-FROM node:18 AS build
-
-# Establece el directorio de trabajo dentro del contenedor
+# Usa una imagen base con Node.js
+FROM node:18
+ 
+# Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos del proyecto y las dependencias
+# Copia dependencias
 COPY package*.json ./
 RUN npm install
 
-# Copia el código fuente
+# Copia el resto del proyecto
 COPY . .
 
-# Construye la aplicación en modo de producción
-RUN npm run build --prod
+# Instala las dependencias necesarias para Angular
+RUN npm install -g @angular/cli
 
-# Expone el puerto 4200
+# Expone el puerto donde va a correr dentro del contenedor
 EXPOSE 4200
 
-# Comando para iniciar el servidor de desarrollo de Angular
-CMD ["npm", "start"]
+# Comando para servir el frontend en modo de desarrollo
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
