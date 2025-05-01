@@ -94,10 +94,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  edit(id: number, name: string, price: number, account: number, code: string, ubication: string, retail: number, wholesaler: number, category: any) {
+  edit(id: number, name: string, price: number, account: number, code: string, ubication: string, retail: number, wholesaler: number, category: any, picture: any) {
     const dialogRef = this.dialog.open(NewProductComponent, {
       width: '450px',
-      data: { id, name, price, account, code, ubication, retail, wholesaler, category }
+      data: { id, name, price, account, code, ubication, retail, wholesaler, category, picture }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {

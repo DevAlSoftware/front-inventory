@@ -87,12 +87,20 @@ export class LoginComponent implements OnInit {
             this.loginService.logout();
           }
         })
-      },(error) => {
+      },
+      (error) => {
         console.log(error);
-        this.snack.open('Detalles inválidos , vuelva a intentar !!','Aceptar',{
-          duration:3000
-        })
+        // Verificar el tipo de error
+        if (error.status === 404 || error.status === 400) {
+          this.snack.open('Usuario no registrado o credenciales inválidas. Vuelva a intentar !!', 'Aceptar', {
+            duration: 3000
+          });
+        } else {
+          this.snack.open('Se produjo un error al iniciar sesión. Inténtalo nuevamente.', 'Aceptar', {
+            duration: 3000
+          });
+        }
       }
-    )
+    );
   }
 }
