@@ -1,0 +1,52 @@
+/* Título */
+h1[mat-dialog-title] {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #b4975a;
+    margin-bottom: 1rem;
+  }
+  
+  /* Contenido */
+  [mat-dialog-content] p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Botones */
+  [mat-dialog-actions] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  button[mat-button] {
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Botón "No" */
+  button[mat-button]:first-child {
+    background-color: #f3f3f3;
+    color: #444;
+  }
+  
+  button[mat-button]:first-child:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Botón "Sí" */
+  button[mat-button]:last-child {
+    background-color: #e8e1d8;
+    color: #b4975a;
+    font-weight: bold;
+  }
+  
+  button[mat-button]:last-child:hover {
+    background-color: #d6cec4;
+    transform: translateY(-1px);
+  }
+  
